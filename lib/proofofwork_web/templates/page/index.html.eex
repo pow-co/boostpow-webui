@@ -1,0 +1,32 @@
+<section class="phx-hero">
+  <h1><%= gettext "Proof of Work", name: "Phoenix" %></h1>
+  <p>Mining memes for a better world</p>
+</section>
+
+<section class="row">
+  <article class="column">
+    <h2>Downloads</h2>
+    <ul>
+      <li>
+        <a href="https://pow.co/linux">Linux</a>
+      </li>
+      <li>
+        <a href="https://pow.co/mac">Mac</a>
+      </li>
+      <li>
+        <a href="https://pow.co/windows">Windows</a>
+      </li>
+    </ul>
+  </article>
+  <article class="column">
+    <h2>Help</h2>
+    <ul>
+      <li>
+        <a href="https://t.me/joinchat/1Ivbis1nZJ80ZGU5">Telegram</a>
+      </li>
+      <li>
+        <a href="https://twetch.app/u/58487">Twetch</a>
+      </li>
+    </ul>
+  </article>
+</section>
