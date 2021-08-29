@@ -1,5 +1,12 @@
+require AMQP
+
 defmodule ProofofworkWeb.CpuWorkerChannel do
+
   use ProofofworkWeb, :channel
+  alias Proofofwork.Repo
+  alias Proofofwork.BestHash
+  alias Proofofwork.Solution
+  alias Proofofwork.Hashrate
 
   @impl true
   def join("cpuworkers:jobs", payload, socket) do
@@ -14,6 +21,50 @@ defmodule ProofofworkWeb.CpuWorkerChannel do
   # by sending replies to requests from the client
   @impl true
   def handle_in("ping", payload, socket) do
+    {:reply, {:ok, payload}, socket}
+  end
+
+  def handle_in("besthash", payload, socket) do
+
+    {hashes, _} = Integer.parse(payload["hashes"])
+    
+    {:ok, _updated } = Repo.insert(%BestHash{
+      besthash: payload["besthash"],
+      publickey: payload["publickey"],
+      hashes: hashes,
+      difficulty: payload["difficulty"],
+      content: payload["content"],
+      os: payload["os"],
+      ipv4: payload["ipv4"]
+    })
+
+    {:reply, {:ok, payload}, socket}
+  end
+
+  def handle_in("solution", payload, socket) do
+
+    {:ok, _updated } = Repo.insert(%Solution{
+      publickey: payload["publickey"],
+      solution: payload["solution"],
+      difficulty: payload["difficulty"],
+      content: payload["content"],
+      os: payload["os"],
+      ipv4: payload["ipv4"]
+    })
+
+    {:reply, {:ok, payload}, socket}
+  end
+
+  def handle_in("hashrate", payload, socket) do
+
+    {:ok, _updated } = Repo.insert(%Hashrate{
+      publickey: payload["publickey"],
+      hashrate: payload["hashrate"],
+      difficulty: payload["difficulty"],
+      content: payload["content"],
+      ipv4: payload["ipv4"]
+    })
+
     {:reply, {:ok, payload}, socket}
   end
 

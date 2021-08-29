@@ -6,6 +6,8 @@ defmodule Proofofwork.Application do
   use Application
 
   def start(_type, _args) do
+    Dotenv.load
+
     children = [
       # Start the Ecto repository
       Proofofwork.Repo,

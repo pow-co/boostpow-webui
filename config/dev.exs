@@ -1,11 +1,18 @@
 use Mix.Config
 
 # Configure your database
+#config :proofofwork, Proofofwork.Repo,
+#  username: "postgres",
+#  password: "postgres",
+#  database: "proofofwork_dev",
+#  hostname: "localhost",
+#  show_sensitive_data_on_connection_error: true,
+#  pool_size: 10
 config :proofofwork, Proofofwork.Repo,
-  username: "postgres",
-  password: "postgres",
-  database: "proofofwork_dev",
-  hostname: "localhost",
+  username: "pow_co",
+  password: "ac6cd91420422e60036616d49d4bf88a",
+  database: "pow_co",
+  hostname: "anypay-dash-payment-service.cdzfkderlkpp.us-east-1.rds.amazonaws.com",
   show_sensitive_data_on_connection_error: true,
   pool_size: 10
 
