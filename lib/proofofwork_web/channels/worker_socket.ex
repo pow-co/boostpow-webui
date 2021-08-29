@@ -15,10 +15,44 @@ defmodule ProofofworkWeb.WorkerSocket do
   #
   # See `Phoenix.Token` documentation for examples in
   # performing token verification on connect.
+  defoverridable init: 1
+
+  @impl true
+  def init(state) do
+    res = {:ok, {_, socket}} = super(state)
+    #on_connect(self(), socket.assigns.user_id)
+    on_connect(self())
+    res
+  end
+
+  def on_connect(pid) do
+    # Log user_id connected, increase gauge, etc.
+    monitor(pid)
+  end
+
+  defp monitor(pid) do
+    Task.Supervisor.start_child(Proofofwork.TaskSupervisor, fn ->
+      Process.flag(:trap_exit, true)
+      ref = Process.monitor(pid)
+
+      receive do
+        {:DOWN, ^ref, :process, _pid, _reason} ->
+          #on_disconnect(user_id)
+          on_disconnect()
+      end
+    end)
+  end
 
   @impl true
   def connect(_params, socket, _connect_info) do
     {:ok, socket} 
+  end
+
+  @impl true
+  def on_disconnect do
+    IO.puts "DISCONNECTED"
+
+    {:ok} 
   end
 
   # Socket id's are topics that allow you to identify

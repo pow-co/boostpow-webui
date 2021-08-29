@@ -13,6 +13,8 @@ defmodule Proofofwork.Application do
       Proofofwork.Repo,
       # Start the Telemetry supervisor
       ProofofworkWeb.Telemetry,
+
+      {Task.Supervisor, name: Proofofwork.TaskSupervisor},
       # Start the PubSub system
       {Phoenix.PubSub, name: Proofofwork.PubSub},
       # Start the Endpoint (http/https)

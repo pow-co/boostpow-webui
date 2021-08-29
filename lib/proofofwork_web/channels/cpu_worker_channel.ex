@@ -80,4 +80,10 @@ defmodule ProofofworkWeb.CpuWorkerChannel do
   defp authorized?(_payload) do
     true
   end
+
+  def handle_info({:DOWN, _, _, transport_pid, reason}, %{transport_pid: transport_pid} = socket) do
+    IO.puts "SOCKET DISCONNECTED"
+    reason = if reason == :normal, do: {:shutdown, :closed}, else: reason
+    {:stop, reason, socket}
+  end
 end
