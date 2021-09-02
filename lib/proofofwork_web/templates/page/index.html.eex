@@ -1,4 +1,4 @@
-<section class="phx-hero">
+<section class="">
   <h1><%= gettext "Proof of Work", name: "Phoenix" %></h1>
   <p>Mining memes for a better world</p>
 </section>
@@ -29,4 +29,23 @@
       </li>
     </ul>
   </article>
+</section>
+
+<section class="row">
+
+  <h2>Latest Proof of Work</h2>
+  <br/>
+ 
+  <table>
+    <%= for item <- @planarias do %>
+    <tr>
+      <td>
+        <a href="https://whatsonchain.com/tx/<%=item.txid%>", target="_blank">
+          <%= item.txid %>
+        </a>
+      </td>
+    </tr>
+    <% end %>
+  </table>
+
 </section>
