@@ -6,7 +6,10 @@ defmodule ProofofworkWeb.PageController do
   alias Proofofwork.PlanariaRecord
 
   def index(conn, _params) do
-    query = from PlanariaRecord, limit: 25
+    query = from PlanariaRecord,
+      limit: 25,
+      order_by: [desc: :inserted_at]
+
     planarias = Repo.all(query)
     render(conn, "index.html", planarias: planarias)
   end
