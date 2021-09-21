@@ -11,6 +11,16 @@ defmodule ProofofworkWeb.Router do
 
   pipeline :api do
     plug :accepts, ["json"]
+
+  end
+
+  scope "/api", ProofofworkWeb.Api, as: :api do
+
+    pipe_through :api
+
+    get "/jobs", JobsController, :index
+    get "/jobs/:txid", JobsController, :show
+
   end
 
   scope "/", ProofofworkWeb do

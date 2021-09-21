@@ -1,6 +1,7 @@
 defmodule Proofofwork.PlanariaRecord do
   use Ecto.Schema
   import Ecto.Changeset
+  @derive {Jason.Encoder, only: [:txid, :block_hash, :block_height, :time, :tx]}
 
   schema "planaria_records" do
     field :_id, :string
@@ -9,6 +10,8 @@ defmodule Proofofwork.PlanariaRecord do
     field :time, :integer
     field :tx, :map
     field :txid, :string
+    field :content, :string
+    field :difficulty, :decimal
 
     timestamps()
   end

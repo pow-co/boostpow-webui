@@ -46,7 +46,8 @@ defmodule Proofofwork.MixProject do
       {:jason, "~> 1.0"},
       {:plug_cowboy, "~> 2.0"},
       {:amqp, "~> 3.0.0-rc.1"},
-      {:dotenv, "~> 3.0.0"}
+      {:dotenv, "~> 3.0.0"},
+      {:mongodb, "~> 0.5.1", override: true}
     ]
   end
 
