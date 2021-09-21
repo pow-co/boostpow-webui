@@ -3,14 +3,14 @@ import Ecto.Query
 defmodule ProofofworkWeb.Api.JobsController do
   use ProofofworkWeb, :controller
   alias Proofofwork.Repo
-  alias Proofofwork.PlanariaRecord
+  alias Proofofwork.BoostJob
 
   def index(conn, params) do
 
     limit = params["limit"] || 25
     offset = params["offset"] || 0
 
-    query = from PlanariaRecord,
+    query = from BoostJob,
       limit: ^limit,
       offset: ^offset,
       order_by: [desc: :inserted_at]
@@ -21,7 +21,7 @@ defmodule ProofofworkWeb.Api.JobsController do
 
   def show(conn, %{"txid"=>txid}) do
 
-    job = Repo.get_by!(PlanariaRecord, txid: txid)
+    job = Repo.get_by!(BoostJob, txid: txid)
 
     json(conn, %{job: job})
   end

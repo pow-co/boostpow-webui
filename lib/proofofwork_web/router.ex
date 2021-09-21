@@ -14,7 +14,7 @@ defmodule ProofofworkWeb.Router do
 
   end
 
-  scope "/api", ProofofworkWeb.Api, as: :api do
+  scope "/api/v1", ProofofworkWeb.Api, as: :api do
 
     pipe_through :api
 
