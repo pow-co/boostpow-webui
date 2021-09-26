@@ -12,6 +12,7 @@ defmodule Proofofwork.PlanariaRecord do
     field :txid, :string
     field :content, :string
     field :difficulty, :decimal
+    field :rawtx, :binary
 
     timestamps()
   end

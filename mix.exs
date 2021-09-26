@@ -20,7 +20,7 @@ defmodule Proofofwork.MixProject do
   def application do
     [
       mod: {Proofofwork.Application, []},
-      extra_applications: [:logger, :runtime_tools]
+      extra_applications: [:logger, :runtime_tools, :httpoison]
     ]
   end
 
@@ -47,7 +47,8 @@ defmodule Proofofwork.MixProject do
       {:plug_cowboy, "~> 2.0"},
       {:amqp, "~> 3.0.0-rc.1"},
       {:dotenv, "~> 3.0.0"},
-      {:mongodb, "~> 0.5.1", override: true}
+      {:mongodb, "~> 0.5.1", override: true},
+      {:httpoison, "~> 1.8"}
     ]
   end
 
