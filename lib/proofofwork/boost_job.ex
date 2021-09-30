@@ -14,6 +14,8 @@ defmodule Proofofwork.BoostJob do
     field :userNonce, :string
     field :value, :integer
     field :vout, :integer
+    field :spent, :boolean, default: false
+    field :spend_txid, :string
 
     timestamps()
   end
