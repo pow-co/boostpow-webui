@@ -48,6 +48,8 @@ defmodule ProofofworkWeb.Api.JobsController do
 
     job = Repo.get_by!(BoostJob, txid: txid)
 
-    json(conn, %{job: job})
+    response = %{job: job}
+
+    json(conn, response)
   end
 end

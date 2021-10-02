@@ -1,7 +1,18 @@
 defmodule Proofofwork.BoostJob do
   use Ecto.Schema
   import Ecto.Changeset
-  @derive {Jason.Encoder, only: [:content, :difficulty, :category, :tag, :txid, :value, :vout, :additionalData]}
+  @derive {Jason.Encoder, only: [
+    :content,
+    :difficulty,
+    :category,
+    :tag,
+    :txid,
+    :value,
+    :vout,
+    :additionalData,
+    :script,
+    :spent
+  ]}
 
   schema "boost_jobs" do
     field :additionalData, :string
@@ -16,6 +27,7 @@ defmodule Proofofwork.BoostJob do
     field :vout, :integer
     field :spent, :boolean, default: false
     field :spend_txid, :string
+    field :script, :string
 
     timestamps()
   end
