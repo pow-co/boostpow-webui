@@ -1,0 +1,63 @@
+
+<section class="">
+  <h1><%= gettext "Proof of Work", name: "Phoenix" %></h1>
+  <p><b>Pay To Boost <%= @content %></b></p>
+  <div id="paypresto"></div>
+  <div id="moneybutton"></div>
+  <div id="relayx-button"></div>
+</section>
+
+<script>
+  const {Presto, embed} = Paypresto
+
+  let script = '<%= @scripthex %>'
+
+  const payment = Presto.create({
+    key: 'Kx2p4o7FYJYjEwufdYJLXjPtu2vaSpQ8mB7mjMJnaHnPSrGQ1nQk',
+    description: 'Difficulty <%= @difficulty %>',
+    outputs: [
+      { to: '1ErZaNaYtbUSfyXK8yc9dvH2ofMpw8r7DT', satoshis: 10000 },
+      { script, satoshis: 10000 }
+    ]
+  })
+
+  /*
+ */
+
+  /*
+  const div = document.getElementById('moneybutton')
+  moneyButton.render(div, {
+    to: script,
+    amount: 0.0001,
+    currency: "BSV",
+    onPayment: (arg) => {
+      console.log('onPayment', arg)
+    },
+    onError: (arg) => { console.log('onError', arg) }
+  })
+  const relaydiv = document.querySelector('#relayx-button')
+  relayone.render(relaydiv, {
+    to: script,
+    amount: 0.0001,
+    currency: "BSV"
+  })
+ */
+
+  payment
+    .mount(embed('#paypresto'))
+    .on('funded', payment => payment.pushTx())
+    .on('success', txid => {
+
+       console.log('TX sent', txid)
+
+        setTimeout(() => {
+
+          $('#paypresto').innerHTML = null
+
+          window.location = '/'
+
+        }, 1000)
+
+     })
+
+</script>

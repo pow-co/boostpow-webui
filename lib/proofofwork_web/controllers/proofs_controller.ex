@@ -1,6 +1,6 @@
 import Ecto.Query
 
-defmodule ProofofworkWeb.PageController do
+defmodule ProofofworkWeb.ProofsController do
   use ProofofworkWeb, :controller
   alias Proofofwork.Repo
   alias Proofofwork.PlanariaRecord

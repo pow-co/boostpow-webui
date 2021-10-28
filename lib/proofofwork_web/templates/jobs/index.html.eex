@@ -1,3 +1,13 @@
+<style>
+  .button-text {
+    color: white;
+  }
+  .align-right {
+    float:right;
+    margin-left: 1em;
+    background-color: green; 
+  }
+</style>
 
 <section class="">
   <h1><%= gettext "Proof of Work", name: "Phoenix" %></h1>
@@ -8,54 +18,93 @@
 </section>
 
 <section class="row">
-  <article class="column">
-    <h2>Downloads</h2>
-    <ul>
-      <li>
-        <a href="https://pow.co/linux">Linux</a>
-      </li>
-      <li>
-        <a href="https://pow.co/mac">Mac</a>
-      </li>
-      <li>
-        <a href="https://pow.co/windows">Windows</a>
-      </li>
-    </ul>
-  </article>
-  <article class="column">
-    <h2>Help</h2>
-    <ul>
-      <li>
-        <a href="https://t.me/joinchat/1Ivbis1nZJ80ZGU5">Telegram</a>
-      </li>
-      <li>
-        <a href="https://twetch.app/u/58487">Twetch</a>
-      </li>
-    </ul>
-  </article>
+
+  <%= if @mined do %>
+    <h2>Recent Mined Boosts</h2>
+  <% else %>
+    <h2>Recent Boost Jobs Not Mined</h2>
+  <% end %>
+  <%= button("+ Post New Job", to: "/jobs/new", method: :get, class: "btn align-right") %>
+
 </section>
 
 <section class="row">
-
-  <h2>Latest Jobs</h2>
-  <br/>
  
   <table>
-    <%= for item <- @planarias do %>
+    <thead>
+      <hr>
+        <td>
+          Content
+        </td>
+        <td>
+          Difficulty
+        </td>
+        <td>
+          Reward
+        </td>
+        <td>
+          <%= if @mined do %>
+            <%= link("Mined?", to: "/jobs/not_mined") %>
+          <% else %>
+            <%= link("Mined?", to: "/jobs/mined") %>
+          <% end %>
+        </td>
+      </hr>
+    </thead>
+    <%= for item <- @jobs do %>
     <tr>
       <td>
-          <%= item.inserted_at %>
+        <button>
+          <a class='button-text' href="https://whatsonchain.com/tx/<%=item.txid%>", target="_blank">
+            View Job
+          </a>
+        </button>
+        <button>
+          <a class='button-text' href="https://whatsonchain.com/tx/<%=item.content%>", target="_blank">
+            View Content
+          </a>
+        </button>
       </td>
       <td>
-        <a href="https://whatsonchain.com/tx/<%=item.txid%>", target="_blank">
-          <%= item.txid %>
-        </a>
+          <%= item.difficulty %>
+      </td>
+      <td>
+          <%= item.value %>
+      </td>
+      <td>
+          <%= if item.spent do %>
+            <%= if item.spend_txid do %>
+              <button>
+                <a class='button-text' href="https://whatsonchain.com/tx/<%=item.spend_txid%>", target="_blank">
+                  View Proof
+                </a>
+              </button>
+            <% else %>
+              <p>✓</p>
+            <% end %>
+          <% else %>
+            <p>✘</p>
+          <% end %>
       </td>
     </tr>
     <% end %>
   </table>
 
 </section>
+
+<script>
+
+  $(document).ready(() => {
+
+      console.log('ready')
+
+    $('#mined_toggle').change(function() {
+      console.log(this.checked)
+    })
+
+  })
+
+</script>
 
 <script>
   const {Presto, embed} = Paypresto

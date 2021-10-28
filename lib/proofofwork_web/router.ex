@@ -21,6 +21,8 @@ defmodule ProofofworkWeb.Router do
     get "/jobs", JobsController, :index
     get "/jobs/:txid", JobsController, :show
 
+    get "/proofs", ProofsController, :index
+
     get "/tx/:txid", TransactionsController, :show
 
   end
@@ -28,7 +30,11 @@ defmodule ProofofworkWeb.Router do
   scope "/", ProofofworkWeb do
     pipe_through :browser
 
-    get "/", PageController, :index
+    get "/", JobsController, :mined
+    get "/jobs/mined", JobsController, :mined
+    get "/jobs/not_mined", JobsController, :notmined
+    get "/jobs/new", JobsController, :new
+    get "/", ProofsController, :index
   end
 
 
