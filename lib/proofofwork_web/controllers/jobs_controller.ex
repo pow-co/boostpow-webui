@@ -38,13 +38,26 @@ defmodule ProofofworkWeb.JobsController do
   end
 
 
-  def new(conn, %{"content"=>content,"difficulty"=>difficulty}) do
+  def new(conn, %{"content"=>content,"difficulty"=>difficulty} = params) do
 
     json = Jason.encode!(%{"content": content, "difficulty": difficulty})
 
     {difficulty, _} =  Float.parse(difficulty)
 
-    price = 10000 * 100 * difficulty
+    price = if params["price"] && params["price"] > 100 do
+      if String.length(String.trim params["price"]) == 0 do
+        price = 10000 * 100 * difficulty
+      else
+        {price, _} = Integer.parse(params["price"])
+        price
+      end
+
+    else
+
+      price = 10000 * 100 * difficulty
+      price
+
+    end
 
     case JobScriptBuilder.build_script(content, difficulty) do
 

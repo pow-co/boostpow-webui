@@ -50,11 +50,33 @@
   <form>
 
     <label>Content</label>
-    <input type="text" name="content" placeholder="bitcoin transaction id" value="">
+    <input type="text" name="content" placeholder="bitcoin transaction id" required=true value="">
     <label>Difficulty</label>
     <input type="number" name="difficulty" placeholder="mining difficulty" step=0.01 value=0.01>
-    <input type="submit">
+    <div style='display:none' class='advanced-options'>
+      <label>Price in Satoshis</label>
+      <input type="number" name="price" placeholder="Default value is 1000000 per 1 difficulty" step=1>
+    </div>
+    <input type="submit"><br/>
+    <p style="display:inline" class="show-advanced">Show Advanced</p>
+    <p style="display:none" class="hide-advanced">Hide Advanced</p>
 
   </form>
+
+  <script>
+
+    $(".show-advanced").on('click', () => {
+        $('.advanced-options').show()
+        $('.hide-advanced').show()
+        $('.show-advanced').hide()
+    })
+
+    $(".hide-advanced").on('click', () => {
+        $('.advanced-options').hide()
+        $('.hide-advanced').hide()
+        $('.show-advanced').show()
+    })
+
+  </script>
 
 <% end %>
