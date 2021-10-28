@@ -6,8 +6,8 @@ defmodule Proofofwork.Repo.Migrations.IndexBoostJobTxidAndSpent do
     create index("boost_jobs", [:txid, :spent], comment: "Index Boost Job Txid and Spent")
 
     alter table("boost_jobs") do
-      add_if_not_exists :spent_txid, :string
-      add_if_not_exists :spent_vout, :integer
+      add :spent_txid, :string
+      add :spent_vout, :integer
     end
 
   end
