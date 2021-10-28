@@ -26,6 +26,7 @@ jobs:
       - run: mix local.rebar --force
       - run: mix deps.get
       - run: MIX_ENV=test mix ecto.create
+      - run: MIX_ENV=test mix ecto.migrate
       - run: MIX_ENV=test mix test
 
       - setup_remote_docker
