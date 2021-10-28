@@ -8,9 +8,11 @@ defmodule Proofofwork.JobScriptBuilder do
 
     json = Jason.encode!(%{"content": content, "difficulty": difficulty})
 
-    service_host = "http://127.0.0.1:4001"
+    service_host = System.get_env("NODE_API_BASE")
 
-    case HTTPoison.post("#{service_host}/boost_jobs", json, headers) do
+    IO.inspect service_host
+
+    case HTTPoison.post("#{service_host}/node/api/boost_jobs", json, headers) do
 
       {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
 
