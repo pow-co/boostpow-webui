@@ -14,6 +14,10 @@ defmodule ProofofworkWeb.Router do
 
   end
 
+  scope "/api/v0", ProofofworkWeb.Api, as: :api do
+    post "/transactions/jobs", JobTransactionsController, :create
+  end
+
   scope "/api/v1", ProofofworkWeb.Api, as: :api do
 
     pipe_through :api

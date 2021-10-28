@@ -30,11 +30,15 @@
 
          console.log('tx sent', tx)
 
-          setTimeout(() => {
+          setTimeout(async () => {
+
+            let result = await $.post('/api/v0/transactions/jobs', { txid: tx.txid })
+
+            console.log(result)
 
             window.location = '/jobs/not_mined'
 
-          }, 3000)
+          }, 1000)
 
        })
 
