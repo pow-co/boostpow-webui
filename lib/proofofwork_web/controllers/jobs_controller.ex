@@ -37,6 +37,7 @@ defmodule ProofofworkWeb.JobsController do
     render(conn, "index.html", jobs: jobs, mined: false)
   end
 
+
   def new(conn, %{"content"=>content,"difficulty"=>difficulty}) do
 
     json = Jason.encode!(%{"content": content, "difficulty": difficulty})
@@ -54,5 +55,10 @@ defmodule ProofofworkWeb.JobsController do
     end
 
 
+  end
+
+  def new(conn, _params) do
+
+    render(conn, "new.html", content: false)
   end
 end

@@ -5,7 +5,6 @@
   .align-right {
     float:right;
     margin-left: 1em;
-    background-color: green; 
   }
 </style>
 
@@ -24,7 +23,11 @@
   <% else %>
     <h2>Recent Boost Jobs Not Mined</h2>
   <% end %>
-  <%= button("+ Post New Job", to: "/jobs/new", method: :get, class: "btn align-right") %>
+  <button>
+    <a class='button-text align-right' href="/jobs/new">
+      + Post New Job
+    </a>
+  </button>
 
 </section>
 

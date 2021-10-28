@@ -1,63 +1,82 @@
 
-<section class="">
-  <h1><%= gettext "Proof of Work", name: "Phoenix" %></h1>
-  <p><b>Pay To Boost <%= @content %></b></p>
-  <div id="paypresto"></div>
-  <div id="moneybutton"></div>
-  <div id="relayx-button"></div>
-</section>
+<%= if @content do %>
 
-<script>
-  const {Presto, embed} = Paypresto
+  <section class="">
+    <h1><%= gettext "Proof of Work", name: "Phoenix" %></h1>
+    <p><b>Pay To Boost <%= @content %></b></p>
+    <div id="paypresto"></div>
+    <div id="moneybutton"></div>
+    <div id="relayx-button"></div>
+  </section>
 
-  let script = '<%= @scripthex %>'
+  <script>
+    const {Presto, embed} = Paypresto
 
-  const payment = Presto.create({
-    key: 'Kx2p4o7FYJYjEwufdYJLXjPtu2vaSpQ8mB7mjMJnaHnPSrGQ1nQk',
-    description: 'Difficulty <%= @difficulty %>',
-    outputs: [
-      { to: '1ErZaNaYtbUSfyXK8yc9dvH2ofMpw8r7DT', satoshis: 10000 },
-      { script, satoshis: 10000 }
-    ]
-  })
+    let script = '<%= @scripthex %>'
 
-  /*
- */
+    const payment = Presto.create({
+      key: 'Kx2p4o7FYJYjEwufdYJLXjPtu2vaSpQ8mB7mjMJnaHnPSrGQ1nQk',
+      description: 'Difficulty <%= @difficulty %>',
+      outputs: [
+        { to: '1ErZaNaYtbUSfyXK8yc9dvH2ofMpw8r7DT', satoshis: 10000 },
+        { script, satoshis: 10000 }
+      ]
+    })
 
-  /*
-  const div = document.getElementById('moneybutton')
-  moneyButton.render(div, {
-    to: script,
-    amount: 0.0001,
-    currency: "BSV",
-    onPayment: (arg) => {
-      console.log('onPayment', arg)
-    },
-    onError: (arg) => { console.log('onError', arg) }
-  })
-  const relaydiv = document.querySelector('#relayx-button')
-  relayone.render(relaydiv, {
-    to: script,
-    amount: 0.0001,
-    currency: "BSV"
-  })
- */
+    /*
+   */
 
-  payment
-    .mount(embed('#paypresto'))
-    .on('funded', payment => payment.pushTx())
-    .on('success', txid => {
+    /*
+    const div = document.getElementById('moneybutton')
+    moneyButton.render(div, {
+      to: script,
+      amount: 0.0001,
+      currency: "BSV",
+      onPayment: (arg) => {
+        console.log('onPayment', arg)
+      },
+      onError: (arg) => { console.log('onError', arg) }
+    })
+    const relaydiv = document.querySelector('#relayx-button')
+    relayone.render(relaydiv, {
+      to: script,
+      amount: 0.0001,
+      currency: "BSV"
+    })
+   */
 
-       console.log('TX sent', txid)
+    payment
+      .mount(embed('#paypresto'))
+      .on('funded', payment => payment.pushTx())
+      .on('success', txid => {
 
-        setTimeout(() => {
+         console.log('TX sent', txid)
 
-          $('#paypresto').innerHTML = null
+          setTimeout(() => {
 
-          window.location = '/'
+            window.location = '/jobs/not_mined'
 
-        }, 1000)
+          }, 3000)
 
-     })
+       })
 
-</script>
+  </script>
+
+<% else %>
+
+  <section class="">
+    <h1><%= gettext "Proof of Work", name: "Phoenix" %></h1>
+    <p><b>Pay To Boost</b></p>
+  </section>
+
+  <form>
+
+    <label>Content</label>
+    <input type="text" name="content" placeholder="bitcoin transaction id" value="">
+    <label>Difficulty</label>
+    <input type="number" name="difficulty" placeholder="mining difficulty" value=0.01>
+    <input type="submit">
+
+  </form>
+
+<% end %>
