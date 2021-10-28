@@ -42,11 +42,15 @@ defmodule ProofofworkWeb.JobsController do
 
     json = Jason.encode!(%{"content": content, "difficulty": difficulty})
 
+    {difficulty, _} =  Float.parse(difficulty)
+
+    price = 10000 * 100 * difficulty
+
     case JobScriptBuilder.build_script(content, difficulty) do
 
       {:ok, newjob} ->
 
-        render(conn, "new.html", scripthex: newjob["hex"], content: content, difficulty: difficulty)
+        render(conn, "new.html", scripthex: newjob["hex"], content: content, difficulty: difficulty, price: price)
 
       {:error, reason} ->
 

@@ -18,39 +18,17 @@
       key: 'Kx2p4o7FYJYjEwufdYJLXjPtu2vaSpQ8mB7mjMJnaHnPSrGQ1nQk',
       description: 'Difficulty <%= @difficulty %>',
       outputs: [
-        { to: '1ErZaNaYtbUSfyXK8yc9dvH2ofMpw8r7DT', satoshis: 10000 },
-        { script, satoshis: 10000 }
+        { script, satoshis: <%= @price %>},
+        { to: '1ErZaNaYtbUSfyXK8yc9dvH2ofMpw8r7DT', satoshis: 5000 },
       ]
     })
-
-    /*
-   */
-
-    /*
-    const div = document.getElementById('moneybutton')
-    moneyButton.render(div, {
-      to: script,
-      amount: 0.0001,
-      currency: "BSV",
-      onPayment: (arg) => {
-        console.log('onPayment', arg)
-      },
-      onError: (arg) => { console.log('onError', arg) }
-    })
-    const relaydiv = document.querySelector('#relayx-button')
-    relayone.render(relaydiv, {
-      to: script,
-      amount: 0.0001,
-      currency: "BSV"
-    })
-   */
 
     payment
       .mount(embed('#paypresto'))
       .on('funded', payment => payment.pushTx())
-      .on('success', txid => {
+      .on('success', tx => {
 
-         console.log('TX sent', txid)
+         console.log('tx sent', tx)
 
           setTimeout(() => {
 
