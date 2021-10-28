@@ -18,8 +18,8 @@
       key: 'Kx2p4o7FYJYjEwufdYJLXjPtu2vaSpQ8mB7mjMJnaHnPSrGQ1nQk',
       description: 'Difficulty <%= @difficulty %>',
       outputs: [
-        { script, satoshis: <%= @price %>},
         { to: '1ErZaNaYtbUSfyXK8yc9dvH2ofMpw8r7DT', satoshis: 5000 },
+        { script, satoshis: <%= @price %>}
       ]
     })
 
@@ -52,7 +52,7 @@
     <label>Content</label>
     <input type="text" name="content" placeholder="bitcoin transaction id" value="">
     <label>Difficulty</label>
-    <input type="number" name="difficulty" placeholder="mining difficulty" value=0.01>
+    <input type="number" name="difficulty" placeholder="mining difficulty" step=0.01 value=0.01>
     <input type="submit">
 
   </form>
