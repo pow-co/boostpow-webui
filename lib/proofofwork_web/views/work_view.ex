@@ -1,3 +1,3 @@
-defmodule ProofofworkWeb.JobsView do
+defmodule ProofofworkWeb.WorkView do
   use ProofofworkWeb, :view
 end
