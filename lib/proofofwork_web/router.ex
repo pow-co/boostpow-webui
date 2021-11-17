@@ -29,6 +29,8 @@ defmodule ProofofworkWeb.Router do
 
     get "/tx/:txid", TransactionsController, :show
 
+    get "/work", WorkController, :index
+
   end
 
   scope "/", ProofofworkWeb do
