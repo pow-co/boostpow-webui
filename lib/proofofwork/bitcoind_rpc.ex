@@ -16,7 +16,7 @@ defmodule Proofofwork.BitcoindRpc do
   
     json = Jason.encode!(%{"method": "getrawtransaction", "params": [txid, full]})
 
-    case HTTPoison.post("http://#{rpchost}:#{rpcport}", json, headers) do
+    case HTTPoison.post("https://#{rpchost}:#{rpcport}", json, headers) do
   
       {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
   
