@@ -52,4 +52,30 @@ defmodule ProofofworkWeb.Api.JobsController do
 
     json(conn, response)
   end
+
+  def date_range(conn, params = %{"start_date"=>start_date, "end_date"=> end_date}) do
+
+    {:ok, start_date} = NaiveDateTime.new Date.from_iso8601!(start_date), ~T[00:00:00]
+    {:ok, end_date} = NaiveDateTime.new Date.from_iso8601!(end_date), ~T[00:00:00]
+
+    query = if params["content"] do
+
+      BoostJob
+      |> where([p], p.timestamp >= ^start_date)
+      |> where([p], p.timestamp <= ^end_date)
+      |> where([p], p.content == ^params["content"])
+
+    else
+
+      BoostJob
+      |> where([p], p.timestamp >= ^start_date)
+      |> where([p], p.timestamp <= ^end_date)
+
+    end
+
+    jobs = query |> Repo.all
+
+    json(conn, %{jobs: jobs})
+
+  end
 end

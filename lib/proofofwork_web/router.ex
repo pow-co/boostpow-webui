@@ -14,18 +14,27 @@ defmodule ProofofworkWeb.Router do
   end
 
   scope "/api/v0", ProofofworkWeb.Api, as: :api do
+
     post "/transactions/jobs", JobTransactionsController, :create
+    get "/mining/jobs", MiningJobsController, :index
+
   end
 
   scope "/api/v1", ProofofworkWeb.Api, as: :api do
 
     pipe_through :api
 
+    get "/tx/:txid", TransactionsController, :show
+
     get "/jobs", JobsController, :index
     get "/jobs/:txid", JobsController, :show
-    get "/proofs", ProofsController, :index
-    get "/tx/:txid", TransactionsController, :show
+    get "/jobs/from/:start_date/to/:end_date", JobsController, :date_range
+
     get "/work", WorkController, :index
+    get "/work/since/:date", WorkController, :since_date
+    get "/work/from/:start_date/to/:end_date", WorkController, :date_range
+
+    get "/proofs", ProofsController, :index
 
     get "/content/:content", ContentController, :show
 
