@@ -44,7 +44,7 @@ jobs:
     steps:
       - run:
           name: Deploy to Web Servers
-          command: ssh ubuntu@pow.co "sudo chef-client -o recipe[pow.co::docker]"
+          command: ssh ubuntu@pow.co "sudo chef-client -o recipe[pow.co::website]"
 
 workflows:
   version: 2
