@@ -23,12 +23,11 @@ defmodule ProofofworkWeb.Router do
 
     get "/jobs", JobsController, :index
     get "/jobs/:txid", JobsController, :show
-
     get "/proofs", ProofsController, :index
-
     get "/tx/:txid", TransactionsController, :show
-
     get "/work", WorkController, :index
+
+    get "/content/:content", ContentController, :show
 
   end
 

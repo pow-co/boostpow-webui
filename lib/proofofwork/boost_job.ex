@@ -8,6 +8,7 @@ defmodule Proofofwork.BoostJob do
     :tag,
     :txid,
     :value,
+    :timestamp,
     :vout,
     :additionalData,
     :script,
@@ -20,7 +21,7 @@ defmodule Proofofwork.BoostJob do
     field :content, :string
     field :difficulty, :decimal
     field :tag, :string
-    #field :timestamp, :naive_datetime
+    field :timestamp, :naive_datetime
     field :txid, :string
     field :userNonce, :string
     field :value, :integer
