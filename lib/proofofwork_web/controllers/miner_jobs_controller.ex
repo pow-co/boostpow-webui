@@ -1,6 +1,6 @@
 import Ecto.Query
 
-defmodule ProofofworkWeb.JobsController do
+defmodule ProofofworkWeb.MinerJobsController do
   use ProofofworkWeb, :controller
   alias Proofofwork.Repo
   alias Proofofwork.BoostJob
@@ -9,9 +9,9 @@ defmodule ProofofworkWeb.JobsController do
 
   def index(conn, _params) do
     query = from BoostJob,
-      where: [spent: true],
+      where: [spent: false],
       limit: 25,
-      order_by: [desc: :inserted_at]
+      order_by: [asc: :difficulty]
 
     jobs = Repo.all(query)
     render(conn, "index.html", jobs: jobs)
@@ -30,8 +30,8 @@ defmodule ProofofworkWeb.JobsController do
   def notmined(conn, _params) do
     query = from BoostJob,
       where: [spent: false],
-      limit: 100,
-      order_by: [asc: :difficulty]
+      limit: 25,
+      order_by: [desc: :inserted_at]
 
     jobs = Repo.all(query)
     render(conn, "index.html", jobs: jobs, mined: false)
