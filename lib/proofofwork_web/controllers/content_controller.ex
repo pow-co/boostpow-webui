@@ -15,6 +15,8 @@ defmodule ProofofworkWeb.ContentController do
   use ProofofworkWeb, :controller
   alias Proofofwork.Repo
 
+   plug :put_layout, "content.html"
+
   def show(conn, %{"txid" => txid}) do
     content = txid
 
