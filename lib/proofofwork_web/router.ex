@@ -43,11 +43,14 @@ defmodule ProofofworkWeb.Router do
   scope "/", ProofofworkWeb do
     pipe_through :browser
 
+    get "/view/:txid", ContentController, :show
+
     get "/", JobsController, :mined
     get "/jobs/mined", JobsController, :mined
     get "/jobs/not_mined", JobsController, :notmined
     get "/jobs/new", JobsController, :new
     get "/", ProofsController, :index
+    get "/:txid", ContentController, :show
   end
 
 
