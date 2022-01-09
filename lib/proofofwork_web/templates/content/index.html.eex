@@ -4,47 +4,61 @@
 
   <%= for item <- @content do %>
 
-    <section class="">
+    <section class="content-card" style="display:flex; flex-direction:row">
 
-      <%= if item["content_type"] == "video/mp4" do %>
-        <video controls playsInline autoPlay muted loop>
-          <source
-            src="https://media.bitcoinfiles.org/<%=item["content"]%>"
-            type="video/mp4"
+      <div class="content-stats" style="width: 20%">
+        <h1>#<%= item["rank"] %> <img style="width:50px"src="https://emoji.gg/assets/emoji/upvote.png"/></h1>
+        <p>⛏️ <%= item["work_ordered"] %></p>
+      </div>
+
+      <div class="content-item" style="width:80%">
+
+        <%= if item["content_type"] == "text/plain; charset=utf-8" do %>
+
+          <p><iframe style="width:100%" src="https://media.bitcoinfiles.org/<%=item["txid"]%>"></iframe></p>
+
+        <% end %>
+
+        <%= if item["content_type"] == "video/mp4" do %>
+          <video controls playsInline autoPlay muted loop>
+            <source
+              src="https://media.bitcoinfiles.org/<%=item["content"]%>"
+              type="video/mp4"
+            />
+          </video>
+        <% end %>
+
+        <%= if item["content_type"] == "video/ogg" do %>
+          <video width="320" height="240" controls playsinline autoplay muted loop>
+            <source
+              src="https://media.bitcoinfiles.org/<%=item["content"]%>"
+              type="video/ogg"
+            />
+          </video>
+        <% end %>
+
+        <%= if item["content_type"] == "audio" do %>
+          <audio controls>
+            <source src="https://media.bitcoinfiles.org/<%=item["content"]%>"/>
+          </audio>
+        <% end %>
+
+        <%= if item["content_type"] == "image/jpeg" do %>
+          <img src="https://media.bitcoinfiles.org/<%=item["txid"]%>" />
+        <% end %>
+
+        <%= if item["content_type"] == "image/png" do %>
+          <img src="https://media.bitcoinfiles.org/<%=item["txid"]%>" />
+        <% end %>
+
+        <%= if item["content_type"] == "application/pdf" do %>
+          <embed
+            className="pdfPreview"
+            style="width: 100%; height: 1000px"
+            src="https://drive.google.com/viewerng/viewer?embedded=true&url=https://media.bitcoinfiles.org/<%=item["content"]%>"
           />
-        </video>
-      <% end %>
-
-      <%= if item["content_type"] == "video/ogg" do %>
-        <video width="320" height="240" controls playsinline autoplay muted loop>
-          <source
-            src="https://media.bitcoinfiles.org/<%=item["content"]%>"
-            type="video/ogg"
-          />
-        </video>
-      <% end %>
-
-      <%= if item["content_type"] == "audio" do %>
-        <audio controls>
-          <source src="https://media.bitcoinfiles.org/<%=item["content"]%>"/>
-        </audio>
-      <% end %>
-
-      <%= if item["content_type"] == "image/jpeg" do %>
-        <img src="https://media.bitcoinfiles.org/<%=item["txid"]%>" />
-      <% end %>
-
-      <%= if item["content_type"] == "image/png" do %>
-        <img src="https://media.bitcoinfiles.org/<%=item["txid"]%>" />
-      <% end %>
-
-      <%= if item["content_type"] == "application/pdf" do %>
-        <embed
-          className="pdfPreview"
-          style="width: 100%; height: 1000px"
-          src="https://drive.google.com/viewerng/viewer?embedded=true&url=https://media.bitcoinfiles.org/<%=item["content"]%>"
-        />
-    <% end %>
+        <% end %>
+      </div>
 
     </section>
 

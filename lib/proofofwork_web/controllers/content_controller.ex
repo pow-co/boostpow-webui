@@ -12,6 +12,7 @@
 defmodule ProofofworkWeb.ContentController do
   use ProofofworkWeb, :controller
   alias Proofofwork.Repo
+  alias Proofofwork.Ranking
 
    #plug :put_layout, "content.html"
 
@@ -25,10 +26,27 @@ defmodule ProofofworkWeb.ContentController do
 
   def index(conn, _params) do
 
-    {:ok, content} = get_top_content
+    {:ok, content} = Ranking.top_content :all
 
     render(conn, "index.html", content: content)
   end
+
+  def text(conn, _params) do
+
+    {:ok, content} = Ranking.top_content :text
+
+    render(conn, "index.html", content: content)
+
+  end
+
+  def images(conn, _params) do
+
+    {:ok, content} = Ranking.top_content :image
+
+    render(conn, "index.html", content: content)
+
+  end
+
 
   defp get_content_type txid do
    
@@ -56,25 +74,6 @@ defmodule ProofofworkWeb.ContentController do
 
         {:error, body}
  
-      {:error, %HTTPoison.Error{reason: reason}} ->
-  
-        IO.inspect reason
-  
-        {:error, reason}
-  
-    end
-  end
-
-  defp get_top_content do
-   
-    case HTTPoison.get("https://pow.co/node/v1/ranking/value?limit=1000&offset=0&content_category=image") do
-  
-      {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
-
-        result = Jason.decode!(body)["content"]
-
-        {:ok, result}
-  
       {:error, %HTTPoison.Error{reason: reason}} ->
   
         IO.inspect reason
