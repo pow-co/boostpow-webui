@@ -1,0 +1,153 @@
+
+@import compass
+
+// n is number of stars required
+@function multiple-box-shadow ($n)
+  $value: '#{random(2000)}px #{random(2000)}px #555'
+  @for $i from 2 through $n
+    $value: '#{$value} , #{random(2000)}px #{random(2000)}px #555'
+
+  @return unquote($value)
+
+$shadows-small:  multiple-box-shadow(1700)
+$shadows-medium: multiple-box-shadow(200)
+
+html
+  height: 100%
+  overflow: hidden
+  color: white
+  background: black
+.gradient
+  width: 100%
+  position: absolute
+  top: 0
+  height: 100%
+  animation: animBg 3s
+  opacity: 1.0
+  background: linear-gradient(0, #190729, #000000)
+  &.day
+    background: linear-gradient(0, #B3E8FF, #00B2FF)
+
+@keyframes animBg
+  from
+    opacity: 0.0
+  to
+    opacity: 1.0
+
+  //#11051b
+#stars
+  width: 1px
+  height: 1px
+  background: transparent
+  box-shadow: $shadows-small
+  animation			: animStar 480s linear infinite
+
+  &:after
+    content: " "
+    position: absolute
+    top: 2000px
+    width: 1px
+    height: 1px
+    background: transparent
+    box-shadow: $shadows-small
+
+#stars2
+  width: 2px
+  height: 2px
+  background: transparent
+  box-shadow: $shadows-medium
+  animation			: animStar 400s linear infinite
+
+  &:after
+    content: " "
+    position: absolute
+    top: 2000px
+    width: 2px
+    height: 2px
+    background: transparent
+    box-shadow: $shadows-medium
+
+@keyframes animStar
+  from
+    transform: translateY(0px)
+  to
+    transform: translateY(-2000px)
+
+
+#planetWrap
+  position: absolute
+  bottom: -1900px
+  left: 50%
+
+@keyframes spin
+  from
+    transform: rotate(0deg)
+  to
+    transform: rotate(-360deg)
+
+#planet
+  position: relative
+  left: -50%
+  border-radius: 50%
+  width: 2000px
+  height: 2000px
+  background: #070B0E
+  //transform: rotate(-359deg)
+  animation: spin 500s linear infinite
+  #rat-wrap
+    height: 35px
+    width: 65px
+    position: absolute
+    top: -30px
+    left: calc(50% - 33px)
+    &:before
+      position: absolute
+      content: " "
+      border-radius: 100%
+      width: 20px
+      height: 3px
+      top: 20px
+      left: 25px
+      box-shadow: 0 0 30px white
+      opacity: .5
+  #rat
+    position: absolute
+    height: 35px
+    width: 65px
+    /* position: absolute */
+    background: url('https://imgur.com/QAHSaE9.png')
+
+
+#planetBorder
+  position: relative
+  left: -50%
+  border-radius: 50%
+  width: 2003px
+  height: 2003px
+  background: #0C1014
+  //TODO fix concentricity issue
+
+#lamp
+  position: absolute
+  top: 0
+  left: 50%
+  width: 50px
+  height: 200px
+  &:after
+    opacity: 0.4
+    content: ' '
+    display: block
+    height: 100px
+    width: 100px
+    border-radius: 100%
+    margin: auto
+    box-shadow: 0 0 300px white, 0 0 50px white inset, 0 0 50px white
+    transition: 1s
+    position: absolute
+    top: -210px
+    left: -50px
+
+  .post
+    position: relative
+    top: -190px
+    left: -25px

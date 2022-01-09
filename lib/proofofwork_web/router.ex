@@ -45,11 +45,11 @@ defmodule ProofofworkWeb.Router do
 
     get "/view/:txid", ContentController, :show
 
-    get "/", JobsController, :mined
     get "/jobs/mined", JobsController, :mined
     get "/jobs/not_mined", JobsController, :notmined
     get "/jobs/new", JobsController, :new
-    get "/", ProofsController, :index
+    get "/", ContentController, :index
+    get "/rankings", ContentController, :index
     get "/:txid", ContentController, :show
   end
 

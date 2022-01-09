@@ -1,5 +1,3 @@
-import Ecto.Query
-
 
 #Example Files
 #{
@@ -15,26 +13,21 @@ defmodule ProofofworkWeb.ContentController do
   use ProofofworkWeb, :controller
   alias Proofofwork.Repo
 
-   plug :put_layout, "content.html"
+   #plug :put_layout, "content.html"
 
   def show(conn, %{"txid" => txid}) do
     content = txid
 
     type = get_content_type txid
 
-    [first, _] = String.split(type, "/")
+    render(conn, "show.html", content: content, content_type: type)
+  end
 
-    IO.puts first
+  def index(conn, _params) do
 
-    content_type = if first == "image" do
-      "image"
-    else
-      type
-    end
+    {:ok, content} = get_top_content
 
-    IO.puts content_type
-
-    render(conn, "show.html", content: content, content_type: content_type)
+    render(conn, "index.html", content: content)
   end
 
   defp get_content_type txid do
@@ -47,8 +40,41 @@ defmodule ProofofworkWeb.ContentController do
           match?({"Content-Type", _}, element)
         end)
 
-        elem(header, 1)
+        type = elem(header, 1)
+
+        [first, _] = String.split(type, "/")
+
+        content_type = if first == "image" do
+          "image"
+        else
+          type
+        end
+
+        {:ok,  type}
+
+      {:ok, %HTTPoison.Response{status_code: 500, body: body}} ->
+
+        {:error, body}
  
+      {:error, %HTTPoison.Error{reason: reason}} ->
+  
+        IO.inspect reason
+  
+        {:error, reason}
+  
+    end
+  end
+
+  defp get_top_content do
+   
+    case HTTPoison.get("https://pow.co/node/v1/ranking/value?limit=1000&offset=0&content_category=image") do
+  
+      {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
+
+        result = Jason.decode!(body)["content"]
+
+        {:ok, result}
+  
       {:error, %HTTPoison.Error{reason: reason}} ->
   
         IO.inspect reason
