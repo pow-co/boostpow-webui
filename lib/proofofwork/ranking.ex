@@ -23,7 +23,8 @@ defmodule Proofofwork.Ranking do
 
   def top_content :all do
 
-    case HTTPoison.get("https://pow.co/node/v1/ranking/value?limit=100&offset=0") do
+    #case HTTPoison.get("https://pow.co/node/v1/ranking/value?limit=100&offset=0") do
+    case HTTPoison.get("https://pow.co/node/v1/ranking") do
   
       {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
 

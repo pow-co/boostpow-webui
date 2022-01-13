@@ -28,6 +28,8 @@ defmodule ProofofworkWeb.ContentController do
 
     {:ok, content} = Ranking.top_content :all
 
+    IO.puts "fetched content"
+
     render(conn, "index.html", content: content)
   end
 

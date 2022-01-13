@@ -1,21 +1,39 @@
 
+<style>
+
+.content-card {
+  padding: 1em;
+  border: 1px solid #ccc;
+  margin-top: 1em;
+  border-radius: 0.5em;
+}
+
+</style>
+
 <div style="overflow:scroll">
   <h1>PowCo Most Boosted</h1>
 
   <%= for item <- @content do %>
 
-    <section class="content-card" style="display:flex; flex-direction:row" data-txid='<%= item["txid"] %>'>
+    <section class="content-card" style="display:flex; flex-direction:row" data-txid='<%= item["content"] %>'>
 
       <div class="content-stats" style="width: 20%">
-        <h1>#<%= item["rank"] %> <img class='upvote' data-txid='<%= item["txid"] %>' style="width:50px"src="https://emoji.gg/assets/emoji/upvote.png"/></h1>
-        <p>⛏️ <%= item["work_ordered"] %></p>
+        <h1>#<%= item["rank"] %> <img class='upvote' data-txid='<%= item["content"] %>' style="width:50px"src="https://emoji.gg/assets/emoji/upvote.png"/></h1>
+        <p>⛏️ <%= Float.round(item["difficulty"], 4) %></p>
+        <a target="_blank" rel="noreferer" href="https://whatsonchain.com/tx/<%= item["content"] %>"><button>Explorer</button></a>
       </div>
 
       <div class="content-item" style="width:80%">
 
+        <%= unless item["content_type"] do %>
+
+          <p><%=item["content"]%></p>
+
+        <% end %>
+
         <%= if item["content_type"] == "text/plain; charset=utf-8" do %>
 
-          <p><iframe style="width:100%" src="https://media.bitcoinfiles.org/<%=item["txid"]%>"></iframe></p>
+          <p><iframe style="width:100%" src="https://media.bitcoinfiles.org/<%=item["content"]%>"></iframe></p>
 
         <% end %>
 
@@ -44,11 +62,11 @@
         <% end %>
 
         <%= if item["content_type"] == "image/jpeg" do %>
-          <img src="https://media.bitcoinfiles.org/<%=item["txid"]%>" />
+          <img src="https://media.bitcoinfiles.org/<%=item["content"]%>" />
         <% end %>
 
         <%= if item["content_type"] == "image/png" do %>
-          <img src="https://media.bitcoinfiles.org/<%=item["txid"]%>" />
+          <img src="https://media.bitcoinfiles.org/<%=item["content"]%>" />
         <% end %>
 
         <%= if item["content_type"] == "application/pdf" do %>
@@ -69,10 +87,14 @@
 <script>
 $(document).ready(function() {
 
+    console.log('DOCUMENT READY')
+
     $('.upvote').on('click', async (el) => {
 
         console.log('UPVOTE', el)
         let txid =  $(el.target).data('txid')
+
+        console.log('TXID')
 
         const response = await boostPublish.open({
           content: txid,
