@@ -1,0 +1,7 @@
+
+<section class="">
+
+  <h1>#<%= @channel %></h1>
+
+</section>
+

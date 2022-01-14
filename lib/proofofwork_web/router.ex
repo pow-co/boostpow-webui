@@ -50,7 +50,9 @@ defmodule ProofofworkWeb.Router do
     get "/jobs/new", JobsController, :new
     get "/", ContentController, :index
     get "/rankings", ContentController, :index
+    get "/r/:channel", ChannelsController, :show
     get "/:txid", ContentController, :show
+
   end
 
 

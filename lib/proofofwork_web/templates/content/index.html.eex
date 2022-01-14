@@ -8,10 +8,21 @@
   border-radius: 0.5em;
 }
 
+button.boost-content {
+  float:right
+}
+
+.header {
+}
+
+
 </style>
 
 <div style="overflow:scroll">
-  <h1>PowCo Most Boosted</h1>
+  <div class='header'>
+    <button class='boost-content'>+ Boost Content</button>
+    <h1>PowCo Sexiest</h1>
+  </div>
 
   <%= for item <- @content do %>
 
@@ -88,6 +99,13 @@
 $(document).ready(function() {
 
     console.log('DOCUMENT READY')
+    $('button.boost-content').on('click', async (el) => {
+        const response = await boostPublish.open({
+          onPayment: (payment, boostJob) => {
+            console.log(payment, boostJob);
+          }
+        });
+    })
 
     $('.upvote').on('click', async (el) => {
 
