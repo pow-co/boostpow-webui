@@ -42,6 +42,7 @@ button.boost-content {
       <div class="content-stats" style="width: 20%">
         <h1>#<%= item["rank"] %> <img class='upvote' data-txid='<%= item["content"] %>' style="width:50px"src="https://emoji.gg/assets/emoji/upvote.png"/></h1>
         <p>⛏️ <%= Float.round(item["difficulty"], 4) %></p>
+        <p>₿ <%= item["value"] %></p>
         <a target="_blank" rel="noreferer" href="https://whatsonchain.com/tx/<%= item["content"] %>"><button>Explorer</button></a>
       </div>
 
