@@ -22,6 +22,17 @@ button.boost-content {
   <div class='header'>
     <button class='boost-content'>+ Boost Content</button>
     <h1>PowCo Sexiest</h1>
+    <p>Last
+      <select onchange="this.options[this.selectedIndex].value && (window.location = this.options[this.selectedIndex].value);">
+        <%= for time_filter <- @time_filters do %>
+          <%= if time_filter.current do %>
+            <option selected value="<%= time_filter.path %>"><%= time_filter.title %></option>
+          <% else %>
+            <option value="<%= time_filter.path %>"><%= time_filter.title %></option>
+          <% end %>
+        <% end %>
+      </select>
+    </p>
   </div>
 
   <%= for item <- @content do %>

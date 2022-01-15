@@ -48,7 +48,8 @@ defmodule Proofofwork.MixProject do
       {:amqp, "~> 3.0.0"},
       {:dotenv, "~> 3.0.0"},
       {:mongodb, "~> 0.5.1", override: true},
-      {:httpoison, "~> 1.8"}
+      {:httpoison, "~> 1.8"},
+      {:timex, "~> 3.7.6"}
     ]
   end
 

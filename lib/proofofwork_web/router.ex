@@ -49,6 +49,13 @@ defmodule ProofofworkWeb.Router do
     get "/jobs/not_mined", JobsController, :notmined
     get "/jobs/new", JobsController, :new
     get "/", ContentController, :index
+    get "/last-hour", ContentController, :last_hour
+    get "/last-day", ContentController, :last_day
+    get "/last-week", ContentController, :last_week
+    get "/last-month", ContentController, :last_month
+    get "/last-year", ContentController, :last_year
+    get "/all-time", ContentController, :all_time
+    get "/", ContentController, :index
     get "/rankings", ContentController, :index
     get "/r/:channel", ChannelsController, :show
     get "/:txid", ContentController, :show

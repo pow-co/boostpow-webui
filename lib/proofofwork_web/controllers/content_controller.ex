@@ -28,9 +28,73 @@ defmodule ProofofworkWeb.ContentController do
 
     {:ok, content} = Ranking.top_content :all
 
-    IO.puts "fetched content"
+    time_filters = get_filters "/last-week"
 
-    render(conn, "index.html", content: content)
+    render(conn, "index.html", content: content, time_filters: time_filters)
+  end
+
+  def last_hour(conn, _params) do
+
+    date = Timex.shift(Timex.now(), hours: -1) |> DateTime.to_unix
+
+    {:ok, content} = Ranking.top_content :all, date
+
+    time_filters = get_filters conn.request_path
+
+    render(conn, "index.html", content: content, time_filters: time_filters)
+  end
+
+  def last_day(conn, _params) do
+
+    date = Timex.shift(Timex.now(), days: -1) |> DateTime.to_unix
+
+    {:ok, content} = Ranking.top_content :all, date
+
+    time_filters = get_filters conn.request_path
+
+    render(conn, "index.html", content: content, time_filters: time_filters)
+  end
+
+  def last_week(conn, _params) do
+
+    date = Timex.shift(Timex.now(), days: -7) |> DateTime.to_unix
+
+    {:ok, content} = Ranking.top_content :all, date
+
+    time_filters = get_filters conn.request_path
+
+    render(conn, "index.html", content: content, time_filters: time_filters)
+  end
+
+  def last_month(conn, _params) do
+
+    date = Timex.shift(Timex.now(), months: -1) |> DateTime.to_unix
+
+    {:ok, content} = Ranking.top_content :all, date
+
+    time_filters = get_filters conn.request_path
+
+    render(conn, "index.html", content: content, time_filters: time_filters)
+  end
+
+  def last_year(conn, _params) do
+
+    date = Timex.shift(Timex.now(), years: -1) |> DateTime.to_unix
+
+    {:ok, content} = Ranking.top_content :all, date
+
+    time_filters = get_filters conn.request_path
+
+    render(conn, "index.html", content: content, time_filters: time_filters)
+  end
+
+  def all_time(conn, _params) do
+
+    {:ok, content} = Ranking.top_content :all
+
+    time_filters = get_filters conn.request_path
+
+    render(conn, "index.html", content: content, time_filters: time_filters)
   end
 
   def text(conn, _params) do
@@ -83,6 +147,24 @@ defmodule ProofofworkWeb.ContentController do
         {:error, reason}
   
     end
+  end
+
+  defp get_filters path do
+    [
+      %{:path => "/last-hour", title: "Hour"},
+      %{:path => "/last-day", title: "Day"},
+      %{:path => "/last-week", title: "Week"},
+      %{:path => "/last-month", title: "Month"},
+      %{:path => "/last-year", title: "Year"},
+      %{:path => "/all-time", title: "All Time"}
+    ] |> Enum.map(fn (item) ->
+      if item.path == path do
+          %{:path => item[:path], title: item[:title], current: true}
+      else
+          %{:path => item[:path], title: item[:title], current: false}
+      end
+    end)
+
   end
 
 end
