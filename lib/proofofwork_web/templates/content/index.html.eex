@@ -21,8 +21,8 @@ button.boost-content {
 <div style="overflow:scroll">
   <div class='header'>
     <button class='boost-content'>+ Boost Content</button>
-    <h1>PowCo Sexiest</h1>
-    <p>Last
+    <h1><img style="width:30px" src="https://doge.bitcoinfiles.org/63276afcc38dd807ca518eaafaf1544b53f76e9fb21846a6a17baad8b9a83555"><b>POW</b>CO</h1>
+    <p>
       <select onchange="this.options[this.selectedIndex].value && (window.location = this.options[this.selectedIndex].value);">
         <%= for time_filter <- @time_filters do %>
           <%= if time_filter.current do %>
