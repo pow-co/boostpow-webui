@@ -1,12 +1,17 @@
 
 <section class="">
+          <a  target="_blank" rel="noreferer" href="https://whatsonchain.com/tx/<%= String.downcase(@content.txid) %>"><h3><%=String.downcase(@content.txid) %></h3></a>
+
+        <h6>Content Type <b><%= @content.content_type %></b></h6>
 
     <section class="content-card" style="display:flex; flex-direction:row" data-txid='<%= @content.txid %>'>
 
+      <div class="content-stats">
+          <img class='upvote' data-txid='<%= @content.txid %>' style="width:50px; float:left; margin-right:2em "src="https://emoji.gg/assets/emoji/upvote.png"/>
+      </div>
+
       <div class="content-<%= @content.txid %>" style="width:80%">
 
-        <p><a target="_blank" rel="noreferer" href="https://whatsonchain.com/tx/<%= String.downcase(@content.txid) %>"><button><%=String.downcase(@content.txid) %></button></a></p>
-        <h1><%= @content.content_type %></h1>
 
         <%= if @content.content_type == "text/plain; charset=utf-8" do %>
 
@@ -88,6 +93,12 @@
 
 <div class="tabcontent" id="work-done" style="display:block">
 
+  <%= if Enum.empty? @work do %>
+
+    <h2>No Work Done Yet</h2>
+
+  <% else %>
+
   <h2>Work Done</h2>
 
   <section class="row">
@@ -130,6 +141,7 @@
     </table>
 
   </section>
+<% end %>
 </div>
 
 <div class="tabcontent" id="pending-jobs"> 
@@ -210,3 +222,33 @@
   evt.currentTarget.className += " active";
 }
         </script>
+
+<script>
+$(document).ready(function() {
+
+    $('button.boost-content').on('click', async (el) => {
+        const response = await boostPublish.open({
+          onPayment: (payment, boostJob) => {
+            console.log(payment, boostJob);
+          }
+        });
+    })
+
+    $('.upvote').on('click', async (el) => {
+
+        console.log('UPVOTE', el)
+        let txid =  $(el.target).data('txid')
+
+        console.log('TXID')
+
+        const response = await boostPublish.open({
+          content: txid,
+          onPayment: (payment, boostJob) => {
+            console.log(payment, boostJob);
+          }
+        });
+
+    })
+
+})
+</script>

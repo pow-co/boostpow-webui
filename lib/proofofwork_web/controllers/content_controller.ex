@@ -16,24 +16,14 @@ defmodule ProofofworkWeb.ContentController do
   alias Proofofwork.Ranking
   alias Proofofwork.BoostJob
   alias Proofofwork.Content
+  alias Proofofwork.ContentCache
   alias Proofofwork.Boost.JobProof
 
    #plug :put_layout, "content.html"
 
   def show(conn, %{"txid" => txid}) do
 
-    type = case get_content_type txid do
-      {:ok, content_type} ->
-        content_type
-      {:error, _error} ->
-        "Unknown Content Type"
-    end
-
-    IO.puts "Content Type #{type}"
-
-    content = %{"txid" => txid }
-
-    content = Repo.one!(from Content, where: [txid: ^txid])
+    content = ContentCache.fetch txid
 
     work_query = from JobProof,
       where: [content: ^txid],
@@ -53,7 +43,7 @@ defmodule ProofofworkWeb.ContentController do
 
     pending_jobs = Repo.all(pending_jobs_query)
 
-    render(conn, "show.html", content: content, content_type: type, work: work, jobs: jobs, pending_jobs: pending_jobs)
+    render(conn, "show.html", content: content, work: work, jobs: jobs, pending_jobs: pending_jobs)
   end
 
   def index(conn, _params) do
