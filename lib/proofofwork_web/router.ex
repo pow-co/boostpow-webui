@@ -60,6 +60,7 @@ defmodule ProofofworkWeb.Router do
     get "/rankings", ContentController, :index
     get "/r/:channel", ChannelsController, :show
     get "/:txid", ContentController, :show
+    get "/:txid/pending", ContentController, :show
 
   end
 

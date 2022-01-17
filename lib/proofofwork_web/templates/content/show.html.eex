@@ -87,11 +87,21 @@
 </section>
 <br/>
 <div class="tab">
+  <%= if @tab == "work" do %>
   <button id="defaultOpen" class="tablinks active" onclick="openTab(event, 'work-done')">Work Done</button>
   <button class="tablinks" onclick="openTab(event, 'pending-jobs')">Pending Jobs (<%= length @pending_jobs %>)</button>
+  <% else %>
+  <button id="defaultOpen" class="tablinks" onclick="openTab(event, 'work-done')">Work Done</button>
+  <button class="tablinks active" onclick="openTab(event, 'pending-jobs')">Pending Jobs (<%= length @pending_jobs %>)</button>
+  <% end %>
+
 </div>
 
+<%= if  @tab == "work" do %>
 <div class="tabcontent" id="work-done" style="display:block">
+<% else %>
+<div class="tabcontent" id="work-done" style="display:none">
+<% end %>
 
   <%= if Enum.empty? @work do %>
 
@@ -144,7 +154,12 @@
 <% end %>
 </div>
 
-<div class="tabcontent" id="pending-jobs"> 
+<%= if  @tab == "pending" do %>
+<div class="tabcontent" id="pending-jobs" style="display:block">
+<% else %>
+<div class="tabcontent" id="pending-jobs" style="display:none">
+<% end %>
+
 
   <%= if Enum.empty? @pending_jobs do %>
 

@@ -25,6 +25,9 @@ defmodule ProofofworkWeb.ContentController do
 
     content = ContentCache.fetch txid
 
+    tab = if String.match?(current_path(conn), ~r/pending$/),
+      do: "pending", else: "work"
+
     work_query = from JobProof,
       where: [content: ^txid],
       order_by: [desc: :timestamp]
@@ -43,7 +46,7 @@ defmodule ProofofworkWeb.ContentController do
 
     pending_jobs = Repo.all(pending_jobs_query)
 
-    render(conn, "show.html", content: content, work: work, jobs: jobs, pending_jobs: pending_jobs)
+    render(conn, "show.html", content: content, work: work, jobs: jobs, pending_jobs: pending_jobs, tab: tab)
   end
 
   def index(conn, _params) do
