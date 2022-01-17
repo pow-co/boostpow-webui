@@ -88,7 +88,7 @@
 <br/>
 <div class="tab">
   <button id="defaultOpen" class="tablinks active" onclick="openTab(event, 'work-done')">Work Done</button>
-  <button class="tablinks" onclick="openTab(event, 'pending-jobs')">Pending Jobs</button>
+  <button class="tablinks" onclick="openTab(event, 'pending-jobs')">Pending Jobs (<%= length @pending_jobs %>)</button>
 </div>
 
 <div class="tabcontent" id="work-done" style="display:block">
