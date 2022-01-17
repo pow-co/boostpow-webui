@@ -55,6 +55,13 @@
           </video>
         <% end %>
 
+        <%= if item["content_type"] == "text/markdown; charset=utf-8" do %>
+
+          <div class="markdown">
+            <%= raw item.content_text %>
+          </div>
+
+        <% end %>
 
         <%= if item["content_type"] == "text/plain; charset=utf-8" do %>
 

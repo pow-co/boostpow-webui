@@ -27,6 +27,11 @@
     video {
       max-width: 100%;
     }
+
+    .markdown {
+      max-height: 800px;
+      overflow:scroll;
+    }
   
     .nav-link {
       float:right;

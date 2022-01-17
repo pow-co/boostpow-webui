@@ -39,7 +39,12 @@ defmodule Proofofwork.Ranking do
 
           record = Repo.one!(from Content, where: [txid: ^txid])
 
-          Map.merge(item, %{content_type: record.content_type, content_json: record.content_json, txid: record.txid})
+          Map.merge(item, %{
+            content_type: record.content_type,
+            content_json: record.content_json,
+            content_text: record.content_text,
+            txid: record.txid
+          })
         end)
 
         {:ok, result}
@@ -69,7 +74,12 @@ defmodule Proofofwork.Ranking do
 
           record = Repo.one!(from Content, where: [txid: ^txid])
 
-          Map.merge(item, %{content_type: record.content_type, content_json: record.content_json, txid: record.txid})
+          Map.merge(item, %{
+            content_type: record.content_type,
+            content_json: record.content_json,
+            content_text: record.content_text,
+            txid: record.txid
+          })
         end)
 
         {:ok, result}
