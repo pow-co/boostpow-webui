@@ -62,15 +62,6 @@
 
         <% end %>
 
-        <%= if item["content_type"] == "video/mp4" do %>
-          <video controls playsInline autoPlay muted loop>
-            <source
-              src="https://media.bitcoinfiles.org/<%=item["content"]%>"
-              type="video/mp4"
-            />
-          </video>
-        <% end %>
-
         <%= if item["content_type"] == "video/ogg" do %>
           <video width="320" height="240" controls playsinline autoplay muted loop>
             <source
