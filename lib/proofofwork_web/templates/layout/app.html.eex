@@ -23,6 +23,10 @@
     p {
       overflow: scroll;
     }
+
+    video {
+      max-width: 100%;
+    }
   
     .nav-link {
       float:right;
