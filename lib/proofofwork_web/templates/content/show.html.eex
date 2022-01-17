@@ -1,97 +1,75 @@
 
 <section class="">
 
-    <section class="content-card" style="display:flex; flex-direction:row" data-txid='<%= @content["txid"] %>'>
+    <section class="content-card" style="display:flex; flex-direction:row" data-txid='<%= @content.txid %>'>
 
-      <div class="content-@content" style="width:80%">
+      <div class="content-<%= @content.txid %>" style="width:80%">
 
-        <p><a target="_blank" rel="noreferer" href="https://whatsonchain.com/tx/<%= @content["txid"] %>"><button><%=@content["txid"]%></button></a></p>
-        <h1><%= @content_type %></h1>
+        <p><a target="_blank" rel="noreferer" href="https://whatsonchain.com/tx/<%= String.downcase(@content.txid) %>"><button><%=String.downcase(@content.txid) %></button></a></p>
+        <h1><%= @content.content_type %></h1>
 
-        <%= if @content_type == "text/plain; charset=utf-8" do %>
+        <%= if @content.content_type == "text/plain; charset=utf-8" do %>
 
-          <p><iframe style="width:100%" src="https://media.bitcoinfiles.org/<%=@content["txid"]%>"></iframe></p>
+          <p><iframe style="width:100%" src="https://media.bitcoinfiles.org/<%=@content.txid%>"></iframe></p>
 
         <% end %>
 
-        <%= if @content_type == "video/mp4" do %>
+        <%= if @content.content_type == "twetch" do %>
+          <a class='view-on-twetch-button' href='https://twetch.com/t/<%= @content.txid %>'><button>View on Twetch</button></a>
+
+          <div class="twetch-user">
+            <p>
+            <img class="twetch-user-icon" src='<%=@content.content_json["userByUserId"]["icon"]%>'/>
+            <span class='twetch-user-name'>
+              <%=@content.content_json["userByUserId"]["name"]%> @<%= @content.content_json["userId"] %>
+            </span>
+            </p>
+            <p><%= @content.content_json["bContent"] %></p>
+          </div>
+        <% end %>
+
+        <%= if @content.content_type == "video/mp4" do %>
           <video controls playsInline autoPlay muted loop>
             <source
-              src="https://media.bitcoinfiles.org/<%=@content["txid"]%>"
+              src="https://media.bitcoinfiles.org/<%=@content.txid%>"
               type="video/mp4"
             />
           </video>
         <% end %>
 
-        <%= if @content_type == "video/ogg" do %>
+        <%= if @content.content_type == "video/ogg" do %>
           <video width="320" height="240" controls playsinline autoplay muted loop>
             <source
-              src="https://media.bitcoinfiles.org/<%=@content["txid"]%>"
+              src="https://media.bitcoinfiles.org/<%=@content.txid%>"
               type="video/ogg"
             />
           </video>
         <% end %>
 
-        <%= if @content_type == "audio" do %>
+        <%= if @content.content_type == "audio" do %>
           <audio controls>
-            <source src="https://media.bitcoinfiles.org/<%=@content["txid"]%>"/>
+            <source src="https://media.bitcoinfiles.org/<%=@content.txid%>"/>
           </audio>
         <% end %>
 
-        <%= if @content_type == "image/jpeg" do %>
-          <img src="https://media.bitcoinfiles.org/<%=@content["txid"]%>" />
+        <%= if @content.content_type == "image/jpeg" do %>
+          <img src="https://media.bitcoinfiles.org/<%=@content.txid%>" />
         <% end %>
 
-        <%= if @content_type == "image/png" do %>
-          <img src="https://media.bitcoinfiles.org/<%=@content["txid"]%>" />
+        <%= if @content.content_type == "image/png" do %>
+          <img src="https://media.bitcoinfiles.org/<%=@content.txid%>" />
         <% end %>
 
-        <%= if @content_type == "application/pdf" do %>
+        <%= if @content.content_type == "application/pdf" do %>
           <embed
             className="pdfPreview"
             style="width: 100%; height: 1000px"
-            src="https://drive.google.com/viewerng/viewer?embedded=true&url=https://media.bitcoinfiles.org/<%=@content["txid"]%>"
+            src="https://drive.google.com/viewerng/viewer?embedded=true&url=https://media.bitcoinfiles.org/<%=@content.txid%>"
           />
         <% end %>
       </div>
 
     </section>
-
-  <%= if @content_type == "video/mp4" do %>
-    <video controls playsInline autoPlay muted loop>
-      <source
-        src="https://media.bitcoinfiles.org/<%=@content%>"
-        type="video/mp4"
-      />
-    </video>
-  <% end %>
-
-  <%= if @content_type == "video/ogg" do %>
-    <video width="320" height="240" controls playsinline autoplay muted loop>
-      <source
-        src="https://media.bitcoinfiles.org/<%=@content%>"
-        type="video/ogg"
-      />
-    </video>
-  <% end %>
-
-  <%= if @content_type == "audio" do %>
-    <audio controls>
-      <source src="https://media.bitcoinfiles.org/<%=@content%>"/>
-    </audio>
-  <% end %>
-
-  <%= if @content_type == "image" do %>
-    <img src="https://media.bitcoinfiles.org/<%=@content%>" />
-  <% end %>
-
-  <%= if @content_type == "application/pdf" do %>
-    <embed
-      className="pdfPreview"
-      style="width: 100%; height: 1000px"
-      src="https://drive.google.com/viewerng/viewer?embedded=true&url=https://media.bitcoinfiles.org/<%=@content%>"
-    />
-<% end %>
 
 </section>
 <br/>

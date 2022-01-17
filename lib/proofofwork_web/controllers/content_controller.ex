@@ -15,6 +15,7 @@ defmodule ProofofworkWeb.ContentController do
   alias Proofofwork.Repo
   alias Proofofwork.Ranking
   alias Proofofwork.BoostJob
+  alias Proofofwork.Content
   alias Proofofwork.Boost.JobProof
 
    #plug :put_layout, "content.html"
@@ -28,7 +29,11 @@ defmodule ProofofworkWeb.ContentController do
         "Unknown Content Type"
     end
 
+    IO.puts "Content Type #{type}"
+
     content = %{"txid" => txid }
+
+    content = Repo.one!(from Content, where: [txid: ^txid])
 
     work_query = from JobProof,
       where: [content: ^txid],

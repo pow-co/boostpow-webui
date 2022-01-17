@@ -32,6 +32,30 @@
 
         <% end %>
 
+        <%= if item.content_type == "twetch" do %>
+          <a class='view-on-twetch-button' href='https://twetch.com/t/<%= item.txid %>'><button>View on Twetch</button></a>
+
+          <div class="twetch-user">
+            <p>
+            <img class="twetch-user-icon" src='<%=item.content_json["userByUserId"]["icon"]%>'/>
+            <span class='twetch-user-name'>
+              <%=item.content_json["userByUserId"]["name"]%> @<%= item.content_json["userId"] %>
+            </span>
+            </p>
+            <p><%= item.content_json["bContent"] %></p>
+          </div>
+        <% end %>
+
+        <%= if item.content_type == "video/mp4" do %>
+          <video controls playsInline autoPlay muted loop>
+            <source
+              src="https://media.bitcoinfiles.org/<%=item.txid%>"
+              type="video/mp4"
+            />
+          </video>
+        <% end %>
+
+
         <%= if item["content_type"] == "text/plain; charset=utf-8" do %>
 
           <p><iframe style="width:100%" src="https://media.bitcoinfiles.org/<%=item["content"]%>"></iframe></p>
