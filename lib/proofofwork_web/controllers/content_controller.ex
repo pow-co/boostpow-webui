@@ -1,3 +1,4 @@
+import Ecto.Query
 
 #Example Files
 #{
@@ -13,15 +14,41 @@ defmodule ProofofworkWeb.ContentController do
   use ProofofworkWeb, :controller
   alias Proofofwork.Repo
   alias Proofofwork.Ranking
+  alias Proofofwork.BoostJob
+  alias Proofofwork.Boost.JobProof
 
    #plug :put_layout, "content.html"
 
   def show(conn, %{"txid" => txid}) do
-    content = txid
 
-    type = get_content_type txid
+    type = case get_content_type txid do
+      {:ok, content_type} ->
+        content_type
+      {:error, _error} ->
+        "Unknown Content Type"
+    end
 
-    render(conn, "show.html", content: content, content_type: type)
+    content = %{"txid" => txid }
+
+    work_query = from JobProof,
+      where: [content: ^txid],
+      order_by: [desc: :timestamp]
+
+    work = Repo.all(work_query)
+
+    jobs_query = from BoostJob,
+      where: [content: ^txid],
+      order_by: [desc: :timestamp]
+
+    jobs = Repo.all(jobs_query)
+
+    pending_jobs_query = from BoostJob,
+      where: [content: ^txid, spent: false],
+      order_by: [desc: :timestamp]
+
+    pending_jobs = Repo.all(pending_jobs_query)
+
+    render(conn, "show.html", content: content, content_type: type, work: work, jobs: jobs, pending_jobs: pending_jobs)
   end
 
   def index(conn, _params) do
@@ -35,9 +62,10 @@ defmodule ProofofworkWeb.ContentController do
 
   def last_hour(conn, _params) do
 
-    date = Timex.shift(Timex.now(), hours: -1) |> DateTime.to_unix
+    date = Timex.shift(Timex.now(), hours: 1) |> DateTime.to_unix
 
     {:ok, content} = Ranking.top_content :all, date
+    content = []
 
     time_filters = get_filters conn.request_path
 

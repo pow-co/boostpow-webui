@@ -47,6 +47,7 @@ defmodule ProofofworkWeb.Router do
 
     get "/jobs/mined", JobsController, :mined
     get "/jobs/not_mined", JobsController, :notmined
+    get "/jobs/pending", JobsController, :notmined
     get "/jobs/new", JobsController, :new
     get "/", ContentController, :index
     get "/last-hour", ContentController, :last_hour

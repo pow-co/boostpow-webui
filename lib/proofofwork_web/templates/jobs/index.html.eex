@@ -8,36 +8,13 @@
   }
 </style>
 
-<section class="">
-  <h1><%= gettext "Proof of Work", name: "Phoenix" %></h1>
-  <p>Mining memes for a better world</p>
-  <div id="paypresto"></div>
-  <div id="moneybutton"></div>
-  <div id="relayx-button"></div>
-</section>
-
-<section class="row">
-
-  <%= if @mined do %>
-    <h2>Recent Mined Boosts</h2>
-  <% else %>
-    <h2>Recent Boost Jobs Not Mined</h2>
-  <% end %>
-  <button>
-    <a class='button-text align-right' href="/jobs/new">
-      + Post New Job
-    </a>
-  </button>
-
-</section>
-
 <section class="row">
  
   <table>
     <thead>
       <hr>
         <td>
-          Content
+          Timestamp
         </td>
         <td>
           Difficulty
@@ -46,27 +23,13 @@
           Reward
         </td>
         <td>
-          <%= if @mined do %>
-            <%= link("Mined?", to: "/jobs/not_mined") %>
-          <% else %>
-            <%= link("Mined?", to: "/jobs/mined") %>
-          <% end %>
         </td>
       </hr>
     </thead>
     <%= for item <- @jobs do %>
     <tr>
       <td>
-        <button>
-          <a class='button-text' href="https://whatsonchain.com/tx/<%=item.txid%>", target="_blank">
-            View Job
-          </a>
-        </button>
-        <button>
-          <a class='button-text' href="https://whatsonchain.com/tx/<%=item.content%>", target="_blank">
-            View Content
-          </a>
-        </button>
+          <%= item.timestamp %>
       </td>
       <td>
           <%= item.difficulty %>
@@ -75,19 +38,17 @@
           <%= item.value %>
       </td>
       <td>
-          <%= if item.spent do %>
-            <%= if item.spend_txid do %>
-              <button>
-                <a class='button-text' href="https://whatsonchain.com/tx/<%=item.spend_txid%>", target="_blank">
-                  View Proof
-                </a>
-              </button>
-            <% else %>
-              <p>✓</p>
-            <% end %>
-          <% else %>
-            <p>✘</p>
-          <% end %>
+        <button>
+          <a class='button-text' href="/<%=item.content%>">
+            View Content
+          </a>
+        </button>
+
+        <button>
+          <a class='button-text' href="https://whatsonchain.com/tx/<%=item.txid%>", target="_blank">
+            View Job
+          </a>
+        </button>
       </td>
     </tr>
     <% end %>

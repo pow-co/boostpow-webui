@@ -21,7 +21,7 @@ defmodule Proofofwork.BoostJob do
     field :content, :string
     field :difficulty, :decimal
     field :tag, :string
-    field :timestamp, :naive_datetime
+    field :timestamp, :utc_datetime
     field :txid, :string
     field :userNonce, :string
     field :value, :integer

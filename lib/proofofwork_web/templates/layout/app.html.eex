@@ -17,7 +17,82 @@
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://publish.boost.pow.co/publish.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
     <script defer type="text/javascript" src="<%= Routes.static_path(@conn, "/js/app.js") %>"></script>
+    <style>
+    .nav-link {
+      float:right;
+      padding: 0.5em;
+      margin-right:1em;
+      text-decoration: underline;
+    }
+
+    .content-card {
+      padding: 1em;
+      border: 1px solid #ccc;
+      margin-top: 1em;
+      border-radius: 0.5em;
+    }
+
+    button.boost-content {
+      float:right
+    }
+
+    .header {
+    }
+
+    .home-link {
+      text-decoration: none;
+      color: black;
+    }
+
+    /* Style the tab */
+    .tab {
+      overflow: hidden;
+      border: 1px solid #ccc;
+      background-color: #f1f1f1;
+    }
+
+    /* Style the buttons that are used to open the tab content */
+    .tab button {
+      background-color: inherit;
+      float: left;
+      border: none;
+      outline: none;
+      cursor: pointer;
+      transition: 0.3s;
+      color: black;
+    }
+
+    /* Change background color of buttons on hover */
+    .tab button:hover {
+      background-color: #ddd;
+    }
+
+    /* Create an active/current tablink class */
+    .tab button.active {
+      background-color: #ccc;
+    }
+
+    /* Style the tab content */
+    .tabcontent {
+      display: none;
+      padding: 2em; 
+      border: 1px solid #ccc;
+      border-top: none;
+    }
+    .tabcontent {
+      animation: fadeEffect 1s; /* Fading effect takes 1 second */
+    }
+
+    /* Go from zero to full opacity */
+    @keyframes fadeEffect {
+      from {opacity: 0;}
+      to {opacity: 1;}
+    }
+
+    </style>
+
   </head>
   <body>
     <header>
@@ -25,7 +100,32 @@
     <main role="main" class="container">
       <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>
       <p class="alert alert-danger" role="alert"><%= get_flash(@conn, :error) %></p>
-      <%= @inner_content %>
+      <div>
+  <div class='header'>
+    <button class='boost-content'>+ Boost Content</button>
+    <a class="nav-link" href="/jobs/mined">Recent Work</a>
+    <a class="nav-link" href="/jobs/pending">Pending Jobs</a>
+    <a class="nav-link" href="/">Rankings</a>
+    <a class="home-link" href="/"><h1><img style="width:30px" src="https://doge.bitcoinfiles.org/63276afcc38dd807ca518eaafaf1544b53f76e9fb21846a6a17baad8b9a83555"><b>POW</b>CO</h1></a>
+  </div>
+     
+        <%= @inner_content %>
+
+      </div>
+
     </main>
+
+        <script>
+          $(document).ready(function() {
+
+              $('button.boost-content').on('click', async (el) => {
+                  const response = await boostPublish.open({
+                    onPayment: (payment, boostJob) => {
+                      console.log(payment, boostJob);
+                    }
+                  });
+              })
+          })
+      </script>
   </body>
 </html>

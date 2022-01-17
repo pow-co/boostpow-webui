@@ -30,7 +30,7 @@ defmodule ProofofworkWeb.JobsController do
   def notmined(conn, _params) do
     query = from BoostJob,
       where: [spent: false],
-      limit: 100,
+      limit: 40,
       order_by: [asc: :difficulty]
 
     jobs = Repo.all(query)

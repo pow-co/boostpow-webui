@@ -43,6 +43,7 @@ defmodule Proofofwork.Ranking do
   end
 
   def top_content :all, timestamp do
+    IO.puts "https://pow.co/node/v1/ranking?from_timestamp=#{timestamp}"
 
     #case HTTPoison.get("https://pow.co/node/v1/ranking/value?limit=100&offset=0") do
     case HTTPoison.get("https://pow.co/node/v1/ranking?from_timestamp=#{timestamp}") do

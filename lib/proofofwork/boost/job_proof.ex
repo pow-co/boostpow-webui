@@ -8,6 +8,7 @@ defmodule Proofofwork.Boost.JobProof do
     :spend_vout,
     :signature,
     :content,
+    :value,
     :difficulty,
     :timestamp
   ]}
@@ -19,6 +20,7 @@ defmodule Proofofwork.Boost.JobProof do
     field :spend_vout, :integer
     field :signature, :string
     field :content, :string
+    field :value, :integer
     field :difficulty, :decimal
     field :timestamp, :naive_datetime
 

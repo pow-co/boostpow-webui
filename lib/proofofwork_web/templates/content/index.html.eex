@@ -1,27 +1,6 @@
 
-<style>
+<div>
 
-.content-card {
-  padding: 1em;
-  border: 1px solid #ccc;
-  margin-top: 1em;
-  border-radius: 0.5em;
-}
-
-button.boost-content {
-  float:right
-}
-
-.header {
-}
-
-
-</style>
-
-<div style="overflow:scroll">
-  <div class='header'>
-    <button class='boost-content'>+ Boost Content</button>
-    <h1><img style="width:30px" src="https://doge.bitcoinfiles.org/63276afcc38dd807ca518eaafaf1544b53f76e9fb21846a6a17baad8b9a83555"><b>POW</b>CO</h1>
     <p>
       <select onchange="this.options[this.selectedIndex].value && (window.location = this.options[this.selectedIndex].value);">
         <%= for time_filter <- @time_filters do %>
@@ -33,7 +12,6 @@ button.boost-content {
         <% end %>
       </select>
     </p>
-  </div>
 
   <%= for item <- @content do %>
 
@@ -43,7 +21,7 @@ button.boost-content {
         <h1>#<%= item["rank"] %> <img class='upvote' data-txid='<%= item["content"] %>' style="width:50px"src="https://emoji.gg/assets/emoji/upvote.png"/></h1>
         <p>⛏️ <%= Float.round(item["difficulty"], 4) %></p>
         <p>₿ <%= item["value"] %></p>
-        <a target="_blank" rel="noreferer" href="https://whatsonchain.com/tx/<%= item["content"] %>"><button>Explorer</button></a>
+        <a href="/<%= item["content"] %>"><button>View</button></a>
       </div>
 
       <div class="content-item" style="width:80%">
@@ -110,7 +88,6 @@ button.boost-content {
 <script>
 $(document).ready(function() {
 
-    console.log('DOCUMENT READY')
     $('button.boost-content').on('click', async (el) => {
         const response = await boostPublish.open({
           onPayment: (payment, boostJob) => {
