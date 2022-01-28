@@ -14,6 +14,7 @@ defmodule ProofofworkWeb.Api.TransactionsController do
     json = Jason.encode!(%{"txid": txid})
 
     case HTTPoison.post("#{service_host}", json) do
+
       {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
 
         result = Jason.decode!(body)["result"]
@@ -54,11 +55,19 @@ defmodule ProofofworkWeb.Api.TransactionsController do
 
         case Proofofwork.BitcoindRpc.getrawtransaction(txid, false) do
 
-          {:ok, result} ->
+          {:ok, hex} ->
 
-            hex = result
+            case Proofofwork.BitcoindRpc.getmerkleproof(txid) do
 
-            json(conn, %{txid: txid, txjson: tx, txhex: hex})
+              {:ok, merkleproof} ->
+
+                json(conn, %{txid: txid, txjson: tx, txhex: hex, merkleproof: merkleproof})
+
+              {:error, %HTTPoison.Error{reason: reason}} ->
+                IO.inspect reason
+                json(conn, %{txid: txid, error: reason})
+
+            end
 
           {:error, %HTTPoison.Error{reason: reason}} ->
 
