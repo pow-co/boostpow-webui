@@ -63,8 +63,14 @@ defmodule ProofofworkWeb.Api.TransactionsController do
 
                 json(conn, %{txid: txid, txjson: tx, txhex: hex, merkleproof: merkleproof})
 
+              {:error, missing_merkle_proof_error} -> 
+
+                IO.inspect missing_merkle_proof_error
+
+                json(conn, %{txid: txid, txjson: tx, txhex: hex, merkleproof: false})
+
               {:error, %HTTPoison.Error{reason: reason}} ->
-                IO.inspect reason
+
                 json(conn, %{txid: txid, error: reason})
 
             end

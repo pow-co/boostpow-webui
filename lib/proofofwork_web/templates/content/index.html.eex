@@ -125,12 +125,25 @@ $(document).ready(function() {
 
         console.log('TXID')
 
-        const response = await boostPublish.open({
+        const popup = await boostPublish.open({
           content: txid,
           onPayment: (payment, boostJob) => {
             console.log(payment, boostJob);
+
+              window.location = `https://pow.co/${txid}/pending`
           }
         });
+
+        popup.on('close', () => {
+          console.log('CLOSE POPUP!')
+        })
+
+        popup.on('payment', (result) => {
+
+            console.log('PAYMENT RESULT', result)
+            window.location = `https://pow.co/${txid}/pending`
+
+        })
 
     })
 
