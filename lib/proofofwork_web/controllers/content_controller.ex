@@ -51,9 +51,11 @@ defmodule ProofofworkWeb.ContentController do
 
   def index(conn, _params) do
 
-    {:ok, content} = Ranking.top_content :all
+    date = Timex.shift(Timex.now(), days: -1) |> DateTime.to_unix
 
-    time_filters = get_filters "/last-week"
+    {:ok, content} = Ranking.top_content :all, date
+
+    time_filters = get_filters "/last-day"
 
     render(conn, "index.html", content: content, time_filters: time_filters)
   end
