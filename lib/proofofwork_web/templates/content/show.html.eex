@@ -67,6 +67,11 @@
 
         <%= if @content.content_type == "image/jpeg" do %>
           <img src="https://media.bitcoinfiles.org/<%=@content.txid%>" />
+
+        <% end %>
+
+        <%= if @content.content_type == "image/gif" do %>
+          <img src="https://media.bitcoinfiles.org/<%=@content.txid%>" />
         <% end %>
 
         <%= if @content.content_type == "image/png" do %>

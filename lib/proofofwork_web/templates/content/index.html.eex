@@ -112,6 +112,10 @@
           <img src="https://media.bitcoinfiles.org/<%=item["content"]%>" />
         <% end %>
 
+        <%= if item["content_type"] == "image/gif" do %>
+          <img src="https://media.bitcoinfiles.org/<%=item["content"]%>" />
+        <% end %>
+
         <%= if item["content_type"] == "image/png" do %>
           <img src="https://media.bitcoinfiles.org/<%=item["content"]%>" />
         <% end %>
