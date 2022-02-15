@@ -1,0 +1,177 @@
+
+<script src="https://one.relayx.io/relayone.js"></script>
+
+<style>
+  .file-row {
+    display:flex;
+    flex-direction:row;
+  }
+
+  .file-row .preview {
+    padding: 1em;
+  }
+
+  .file-row .name {
+    padding: 1em;
+  }
+  .file-row .size {
+    padding: 1em;
+  }
+
+  .file-row #relayx-button-file-upload {
+    padding: 1em;
+  }
+</style>
+
+<div id="uploadFileDropZone">
+  <div class="chooseFileEmpty" style="text-algin:center;padding:1em;border:1px #ccc; border-style: dashed">
+    <p style="text-align:center;margin-top:1em">Choose a File or Drop it Here</p>
+  </div>
+
+  <div class="table table-striped" class="files" id="previews">
+
+    <div id="template" class="file-row">
+      <!-- This is used as the file preview template -->
+      <div style="padding-top:1em">
+          <span class="preview"><img data-dz-thumbnail /></span>
+      </div>
+      <div>
+          <p class="name" data-dz-name></p>
+          <strong class="error text-danger" data-dz-errormessage></strong>
+      </div>
+      <div>
+          <p class="size" data-dz-size></p>
+          <div class="progress progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+            <div class="progress-bar progress-bar-success" style="width:0%;" data-dz-uploadprogress></div>
+          </div>
+      </div>
+      <div>
+        <div id="relayx-button-file-upload"></div>
+      </div>
+      <div>
+        <button data-dz-remove class="btn btn-warning cancel upload-cancel" style="margin-top:1em">
+            <i class="glyphicon glyphicon-ban-circle"></i>
+            <span>Cancel</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+
+<script>
+  (() => {
+      var previewNode = document.querySelector("#template");
+      previewNode.id = "";
+      var previewTemplate = previewNode.parentNode.innerHTML;
+      previewNode.parentNode.removeChild(previewNode);
+
+      let myDropzone = new Dropzone(document.body, {
+          url: "/target-url", // Set the url
+          thumbnailWidth: 80,
+          thumbnailHeight: 80,
+          parallelUploads: 1,
+          previewTemplate: previewTemplate,
+          autoQueue: false, // Make sure the files aren't queued until manually added
+          previewsContainer: "#previews", // Define the container to display the previews
+          clickable: ".chooseFileEmpty" // Define the element that should be used as click trigger to select files.);
+      })
+
+      window.dropzone = myDropzone
+      function _base64ToArrayBuffer(base64) {
+        var binary_string = window.atob(base64);
+        var len = binary_string.length;
+        var bytes = new Uint8Array(len);
+        for (var i = 0; i < len; i++) {
+            bytes[i] = binary_string.charCodeAt(i);
+        }
+        return bytes.buffer;
+      }
+      function buf2hex(buffer) { // buffer is an ArrayBuffer
+        return [...new Uint8Array(buffer)]
+            .map(x => x.toString(16).padStart(2, '0'))
+            .join('');
+      }
+      myDropzone.on("addedfile", function(file) {
+
+          window.file = file
+
+          console.log('FILE', file.previewElement)
+
+        document.querySelector(".upload-cancel").onclick = function() {
+          myDropzone.removeAllFiles(true);
+            $('.chooseFileEmpty').show()
+        };
+
+          console.log('FILE ADDED', file)
+          $('.chooseFileEmpty').hide()
+
+          var reader = new FileReader();
+
+          reader.onload = (event => {
+
+              console.log('result', event.target.result)
+            window.result = event.target.result
+
+            const div = document.querySelector('#relayx-button-file-upload')
+            relayone.render(div, {
+              to: "1stevenzeiler",
+              amount: "0.02",
+              currency: "USD",
+              opReturn: [
+                "19HxigV4QyBv3tHpQVcUEQyq1pzZVdoAut",
+                `0x${buf2hex(event.target.result)}`,
+                file.type,
+                'binary',
+               file.name 
+              ],
+              onLoad: (event) => {
+                console.log('relayx loaded', event)
+              },
+              onError: (error) => {
+                console.log('relayx error', error)
+              },
+              onPayment: (payment) => {
+                console.log('relayx payment', payment)
+                  window.location = `/${payment.txid}`
+              }
+            })
+         })
+
+         reader.readAsArrayBuffer(file)
+
+        // Hookup the start button
+        //file.previewElement.querySelector(".start").onclick = function() { myDropzone.enqueueFile(file); };
+      });
+
+      // Update the total progress bar
+      myDropzone.on("totaluploadprogress", function(progress) {
+        document.querySelector("#total-progress .progress-bar").style.width = progress + "%";
+      });
+
+      myDropzone.on("sending", function(file) {
+        // Show the total progress bar when upload starts
+        document.querySelector("#total-progress").style.opacity = "1";
+        // And disable the start button
+        file.previewElement.querySelector(".start").setAttribute("disabled", "disabled");
+      });
+
+      // Hide the total progress bar when nothing's uploading anymore
+      myDropzone.on("queuecomplete", function(progress) {
+        document.querySelector("#total-progress").style.opacity = "0";
+      });
+
+      // Setup the buttons for all transfers
+      // The "add files" button doesn't need to be setup because the config
+      // `clickable` has already been specified.
+     /* document.querySelector("#actions .start").onclick = function() {
+        myDropzone.enqueueFiles(myDropzone.getFilesWithStatus(Dropzone.ADDED));
+      };
+ */
+
+      window.dropzone = myDropzone
+
+  })()
+
+</script>

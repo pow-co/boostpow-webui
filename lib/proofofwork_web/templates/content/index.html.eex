@@ -7,24 +7,20 @@
           <input type="submit" value="🔍" style="width:5%;padding:0px;"/>
         </form>
       </div>
-    <script>
-      $('form#search-form').on('submit', (e) => {
-          e.preventDefault()
-          let value = $('#search-form-input').val()
-          window.location = `/${value}`
+      <script>
+        $('form#search-form').on('submit', (e) => {
+            e.preventDefault()
+            let value = $('#search-form-input').val()
+            window.location = `/${value}`
 
-      })
-    </script>
+        })
+      </script>
 
-      <select onchange="this.options[this.selectedIndex].value && (window.location = this.options[this.selectedIndex].value);">
-        <%= for time_filter <- @time_filters do %>
-          <%= if time_filter.current do %>
-            <option selected value="<%= time_filter.path %>"><%= time_filter.title %></option>
-          <% else %>
-            <option value="<%= time_filter.path %>"><%= time_filter.title %></option>
-          <% end %>
-        <% end %>
-      </select>
+      <div style="display:flex,flex-direction:row">
+
+        <%= render "_file_upload.html", conn: @conn %>
+      </div>
+
 
     </p>
 
