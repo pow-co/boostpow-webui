@@ -134,7 +134,7 @@
               },
               onPayment: (payment) => {
                 console.log('relayx payment', payment)
-                  window.location = `/${payment.txid}`
+                  window.location = `/${payment.txid}?boost`
               }
             })
          })

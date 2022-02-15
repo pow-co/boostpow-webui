@@ -21,7 +21,7 @@ defmodule ProofofworkWeb.ContentController do
 
    #plug :put_layout, "content.html"
 
-  def show(conn, %{"txid" => txid}) do
+  def show(conn, %{"txid" => txid} = params) do
 
     content = ContentCache.fetch txid
 
@@ -46,7 +46,7 @@ defmodule ProofofworkWeb.ContentController do
 
     pending_jobs = Repo.all(pending_jobs_query)
 
-    render(conn, "show.html", content: content, work: work, jobs: jobs, pending_jobs: pending_jobs, tab: tab)
+      render(conn, "show.html", content: content, work: work, jobs: jobs, pending_jobs: pending_jobs, tab: tab, do_boost: params["boost"])
   end
 
   def index(conn, _params) do

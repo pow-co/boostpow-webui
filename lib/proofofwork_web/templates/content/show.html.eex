@@ -268,7 +268,26 @@ $(document).ready(function() {
           }
         });
 
-    })
+    });
+
+    <%= if @do_boost do %>
+            console.log('DO BOOST');
+
+        (async () => {
+
+            console.log('DO BOOST')
+
+          const response = await boostPublish.open({
+              content: "<%=@content.txid%>",
+              onPayment: (payment, boostJob) => {
+                console.log(payment, boostJob);
+              }
+           });
+
+         })()
+
+
+    <% end %>
 
 })
 </script>
