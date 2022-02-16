@@ -132,9 +132,10 @@
               onError: (error) => {
                 console.log('relayx error', error)
               },
-              onPayment: (payment) => {
+              onPayment: async (payment) => {
                 console.log('relayx payment', payment)
-                  window.location = `/${payment.txid}?boost`
+                  //window.location = `/${payment.txid}?boost`
+                  boostContent(payment.txid).then(console.log).catch(console.error)
               }
             })
          })
@@ -146,5 +147,18 @@
       window.dropzone = myDropzone
 
   })()
+
+  async function boostContent(txid) {
+
+      await boostPublish.open({
+        content: txid,
+        onPayment: (payment, boostJob) => {
+          console.log(payment, boostJob);
+
+            window.location = `https://pow.co/${txid}/pending`
+        }
+      });
+
+  }
 
 </script>
