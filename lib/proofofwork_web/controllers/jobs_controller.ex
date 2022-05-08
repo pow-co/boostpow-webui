@@ -18,13 +18,36 @@ defmodule ProofofworkWeb.JobsController do
   end
 
   def mined(conn, _params) do
-    query = from BoostJob,
-      where: [spent: true],
-      limit: 25,
-      order_by: [desc: :inserted_at]
 
-    jobs = Repo.all(query)
-    render(conn, "index.html", jobs: jobs, mined: true)
+    case HTTPoison.get("https://pow.co/api/v1/boost/work") do
+  
+      {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
+  
+        result = Jason.decode!(body)
+
+        IO.inspect result
+
+        render(conn, "index.html", jobs: result["jobs"], mined: false, error: nil)
+ 
+      {:ok, %HTTPoison.Response{status_code: 500, body: body}} ->
+  
+        error = Jason.decode!(body)#["error"]
+        IO.puts "500 ERROR"
+
+        IO.inspect error
+
+        render(conn, "index.html", jobs: [], mined: false, error: error)
+  
+      {:error, %HTTPoison.Error{reason: reason}} ->
+
+        IO.puts "UNKNOWN ERROR"
+  
+        IO.inspect reason
+
+        render(conn, "index.html", jobs: [], mined: false, error: reason)
+  
+    end
+
   end
 
   def notmined(conn, _params) do
