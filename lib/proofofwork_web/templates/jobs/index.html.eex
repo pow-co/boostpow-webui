@@ -9,6 +9,12 @@
 </style>
 
 <section class="row">
+
+  <%= if @error do %>
+
+    <h1>ERROR</h1>
+
+  <% end %>
  
   <table>
     <thead>
@@ -29,23 +35,23 @@
     <%= for item <- @jobs do %>
     <tr>
       <td>
-          <%= item.timestamp %>
+          <%= item["timestamp"] %>
       </td>
       <td>
-          <%= item.difficulty %>
+          <%= item["difficulty"] %>
       </td>
       <td>
-          <%= item.value %>
+          <%= item["value"] %>
       </td>
       <td>
         <button>
-          <a class='button-text' href="/<%=item.content%>">
+          <a class='button-text' href="/<%=item['content']%>">
             View Content
           </a>
         </button>
 
         <button>
-          <a class='button-text' href="https://whatsonchain.com/tx/<%=item.txid%>", target="_blank">
+          <a class='button-text' href="https://whatsonchain.com/tx/<%=item['txid']%>", target="_blank">
             View Job
           </a>
         </button>

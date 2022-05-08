@@ -1,0 +1,111 @@
+
+
+    <section class="content-card" style="display:flex; flex-direction:row" data-txid='<%= @content.txid %>'>
+
+      <div class="content-stats">
+        <img class='upvote upvote-<%=@content.txid%>' data-txid='<%= @content.txid %>' style="width:50px; float:left; margin-right:2em "src="https://emoji.gg/assets/emoji/upvote.png"/>
+      </div>
+
+      <div class="content-<%= @content.txid %>" style="width:80%">
+
+
+        <%= if @content.content_type == "text/plain; charset=utf-8" do %>
+
+          <p><iframe style="width:100%" src="https://media.bitcoinfiles.org/<%=@content.txid%>"></iframe></p>
+
+        <% end %>
+
+        <%= if @content.content_type == "text/markdown; charset=utf-8" do %>
+
+          <div class="markdown">
+            <%= raw @content.content_text %>
+          </div>
+
+        <% end %>
+
+        <%= if @content.content_type == "twetch" do %>
+          <a class='view-on-twetch-button' href='https://twetch.com/t/<%= @content.txid %>'><button>View on Twetch</button></a>
+
+          <div class="twetch-user">
+            <p>
+            <img class="twetch-user-icon" src='<%=@content.content_json["userByUserId"]["icon"]%>'/>
+            <span class='twetch-user-name'>
+              <%=@content.content_json["userByUserId"]["name"]%> @<%= @content.content_json["userId"] %>
+            </span>
+            </p>
+            <p><%= @content.content_json["bContent"] %></p>
+          </div>
+        <% end %>
+
+        <%= if @content.content_type == "video/mp4" do %>
+          <video controls playsInline autoPlay muted loop>
+            <source
+              src="https://media.bitcoinfiles.org/<%=@content.txid%>"
+              type="video/mp4"
+            />
+          </video>
+        <% end %>
+
+        <%= if @content.content_type == "video/ogg" do %>
+          <video width="320" height="240" controls playsinline autoplay muted loop>
+            <source
+              src="https://media.bitcoinfiles.org/<%=@content.txid%>"
+              type="video/ogg"
+            />
+          </video>
+        <% end %>
+
+        <%= if @content.content_type == "audio" do %>
+          <audio controls>
+            <source src="https://media.bitcoinfiles.org/<%=@content.txid%>"/>
+          </audio>
+        <% end %>
+
+        <%= if @content.content_type == "image/jpeg" do %>
+          <img src="https://media.bitcoinfiles.org/<%=@content.txid%>" />
+
+        <% end %>
+
+        <%= if @content.content_type == "image/gif" do %>
+          <img src="https://media.bitcoinfiles.org/<%=@content.txid%>" />
+        <% end %>
+
+        <%= if @content.content_type == "image/png" do %>
+          <img src="https://media.bitcoinfiles.org/<%=@content.txid%>" />
+        <% end %>
+
+        <%= if @content.content_type == "application/pdf" do %>
+          <embed
+            className="pdfPreview"
+            style="width: 100%; height: 1000px"
+            src="https://drive.google.com/viewerng/viewer?embedded=true&url=https://media.bitcoinfiles.org/<%=@content.txid%>"
+          />
+        <% end %>
+      </div>
+
+    </section>
+
+<script>
+
+  (() => {
+
+      $('.upvote-<%=@content.txid%>').on('click', async (el) => {
+
+      console.log('UPVOTE', el)
+      let txid =  $(el.target).data('txid')
+
+      console.log('TXID')
+
+      const response = await boostPublish.open({
+        content: txid,
+        onPayment: (payment, boostJob) => {
+          console.log(payment, boostJob);
+        }
+      });
+
+    });
+
+  })();
+
+
+</script>

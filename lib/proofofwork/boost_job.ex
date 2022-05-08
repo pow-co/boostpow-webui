@@ -30,7 +30,7 @@ defmodule Proofofwork.BoostJob do
     field :spend_txid, :string
     field :script, :string
 
-    timestamps()
+    timestamps(inserted_at: :createdAt, updated_at: :updatedAt, type: :utc_datetime)
   end
 
   @doc false
