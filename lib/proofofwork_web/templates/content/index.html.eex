@@ -52,24 +52,24 @@
 
         <% end %>
 
-        <%= if item.content_type == "twetch" do %>
-          <a class='view-on-twetch-button' href='https://twetch.com/t/<%= item.txid %>'><button>View on Twetch</button></a>
+        <%= if item["content_type"] == "twetch" do %>
+          <a class='view-on-twetch-button' href='https://twetch.com/t/<%= item["txid"] %>'><button>View on Twetch</button></a>
 
           <div class="twetch-user">
             <p>
-            <img class="twetch-user-icon" src='<%=item.content_json["userByUserId"]["icon"]%>'/>
+            <img class="twetch-user-icon" src='<%=item["content_json"]["userByUserId"]["icon"]%>'/>
             <span class='twetch-user-name'>
-              <%=item.content_json["userByUserId"]["name"]%> @<%= item.content_json["userId"] %>
+              <%=item["content_json"]["userByUserId"]["name"]%> @<%= item["content_json"]["userId"] %>
             </span>
             </p>
-            <p><%= item.content_json["bContent"] %></p>
+            <p><%= item["content_json"]["bContent"] %></p>
           </div>
         <% end %>
 
-        <%= if item.content_type == "video/mp4" do %>
+        <%= if item["content_type"] == "video/mp4" do %>
           <video controls playsInline autoPlay muted loop>
             <source
-              src="https://media.bitcoinfiles.org/<%=item.txid%>"
+              src="https://media.bitcoinfiles.org/<%=item["txid"]%>"
               type="video/mp4"
             />
           </video>
@@ -78,7 +78,7 @@
         <%= if item["content_type"] == "text/markdown; charset=utf-8" do %>
 
           <div class="markdown">
-            <%= raw item.content_text %>
+            <%= raw item["content_text"] %>
           </div>
 
         <% end %>
