@@ -32,18 +32,18 @@ jobs:
       - setup_remote_docker
       - run:
           name: Build docker image
-          command: docker build -t proofofwork/proofofwork-server:$CIRCLE_BRANCH .
+          command: docker build -t $DOCKER_REPO:$CIRCLE_BRANCH .
       - run:
           name: Push to Docker Hub
           command: |
             docker login --username $DOCKER_USER --password $DOCKER_PASSWORD
-            docker push proofofwork/powco-webui:$CIRCLE_BRANCH
+            docker push $DOCKER_REPO:$CIRCLE_BRANCH
   deploy:
     machine: true
     steps:
       - run:
           name: Deploy to Web Servers
-          command: ssh ubuntu@pow.co "sudo chef-client -o recipe[pow.co::website]"
+          command: $DEPLOY_COMMAND
 
 workflows:
   version: 2
