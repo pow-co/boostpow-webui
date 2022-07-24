@@ -7,7 +7,7 @@ defmodule Proofofwork.Ranking do
 
   def top_content do
 
-    case HTTPoison.get("https://pow.co/node/v1/ranking/value?limit=1000&offset=0&content_category=image") do
+    case HTTPoison.get("https://pow.co/api/v1/boost/rankings/value?limit=1000&offset=0&content_category=image") do
   
       {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
         result = Jason.decode!(body)["content"]
@@ -26,28 +26,15 @@ defmodule Proofofwork.Ranking do
 
   def top_content :all do
 
-    #case HTTPoison.get("https://pow.co/node/v1/ranking/value?limit=100&offset=0") do
-    case HTTPoison.get("https://pow.co/node/v1/ranking") do
+    case HTTPoison.get("https://pow.co/api/v1/boost/rankings?limit=100") do
   
       {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
 
-        result = Jason.decode!(body)["content"]
+        result = Jason.decode!(body)["rankings"]
 
         result = Enum.map(result, fn (item) ->
 
           txid = item["content"]
-
-          record = Repo.one(from Content, where: [txid: ^txid])
-
-          if record do
-
-            item = Map.merge(item, %{
-              content_type: record.content_type,
-              content_json: record.content_json,
-              content_text: record.content_text,
-              txid: record.txid
-            })
-          end
 
           item
         end)
@@ -65,47 +52,23 @@ defmodule Proofofwork.Ranking do
   end
 
   def top_content :all, timestamp do
-    IO.puts "https://pow.co/node/v1/ranking?from_timestamp=#{timestamp}"
 
-    case HTTPoison.get("https://pow.co/node/v1/ranking?from_timestamp=#{timestamp}") do
+    case HTTPoison.get("https://pow.co/api/v1/boost/rankings?from_timestamp=#{timestamp}") do
   
       {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
 
-        result = Jason.decode!(body)["content"]
+        result = Jason.decode!(body)["rankings"]
 
         result = Enum.map(result, fn (item) ->
 
           txid = item["content"]
 
-          record = Repo.one!(from Content, where: [txid: ^txid])
+          #record = Repo.one!(from Content, where: [txid: ^txid])
 
           Map.merge(item, %{
-            content_type: record.content_type,
-            content_json: record.content_json,
-            content_text: record.content_text,
-            txid: record.txid
+            txid: txid
           })
         end)
-
-        {:ok, result}
-  
-      {:error, %HTTPoison.Error{reason: reason}} ->
-  
-        IO.inspect reason
-  
-        {:error, reason}
-  
-    end
-
-  end
-
-  def top_content(:text) do
-
-    case HTTPoison.get("https://pow.co/node/v1/ranking/value?limit=1000&offset=0&content_category=text") do
-  
-      {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
-
-        result = Jason.decode!(body)["content"]
 
         {:ok, result}
   

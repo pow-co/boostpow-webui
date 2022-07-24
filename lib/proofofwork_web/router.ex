@@ -9,61 +9,31 @@ defmodule ProofofworkWeb.Router do
     plug :put_secure_browser_headers
   end
 
-  pipeline :api do
-    plug :accepts, ["json"]
-  end
-
-  scope "/api/v0", ProofofworkWeb.Api, as: :api do
-
-    post "/transactions/jobs", JobTransactionsController, :create
-    get "/mining/jobs", MiningJobsController, :index
-
-  end
-
-  scope "/api/v1", ProofofworkWeb.Api, as: :api do
-
-    pipe_through :api
-
-    get "/tx/:txid", TransactionsController, :show
-
-    get "/jobs", JobsController, :index
-    get "/jobs/:txid", JobsController, :show
-    get "/jobs/from/:start_date/to/:end_date", JobsController, :date_range
-
-    get "/work", WorkController, :index
-    get "/work/since/:date", WorkController, :since_date
-    get "/work/from/:start_date/to/:end_date", WorkController, :date_range
-
-    get "/proofs", ProofsController, :index
-
-    get "/content/:content", ContentController, :show
-
-  end
-
   scope "/", ProofofworkWeb do
     pipe_through :browser
-
-    get "/view/:txid", ContentController, :show
 
     get "/jobs/mined", JobsController, :mined
     get "/jobs/not_mined", JobsController, :notmined
     get "/jobs/pending", JobsController, :notmined
     get "/jobs/new", JobsController, :new
+
     get "/", ContentController, :index
-    get "/last-hour", ContentController, :last_hour
-    get "/last-day", ContentController, :last_day
-    get "/last-week", ContentController, :last_week
-    get "/last-month", ContentController, :last_month
-    get "/last-year", ContentController, :last_year
-    get "/all-time", ContentController, :all_time
+    get "/top-boosted-last-hour", ContentController, :last_hour
+    get "/top-boosted-last-day", ContentController, :last_day
+    get "/top-boosted-last-week", ContentController, :last_week
+    get "/top-boosted-last-month", ContentController, :last_month
+    get "/top-boosted-last-quarter", ContentController, :last_quarter
+    get "/top-boosted-last-year", ContentController, :last_year
+    get "/top-boosted-all-time", ContentController, :all_time
     get "/", ContentController, :index
     get "/rankings", ContentController, :index
-    get "/r/:channel", ChannelsController, :show
     get "/:txid", ContentController, :show
     get "/:txid/pending", ContentController, :show
+    get "/view/:txid", ContentController, :show
+
+    get "/-/:channel", ChannelsController, :show
 
   end
-
 
   # Other scopes may use custom stacks.
   # scope "/api", ProofofworkWeb do

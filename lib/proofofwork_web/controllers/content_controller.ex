@@ -28,34 +28,37 @@ defmodule ProofofworkWeb.ContentController do
     tab = if String.match?(current_path(conn), ~r/pending$/),
       do: "pending", else: "work"
 
-    work_query = from JobProof,
-      where: [content: ^txid],
-      order_by: [desc: :timestamp]
+    #work_query = from JobProof,
+      #where: [content: ^txid],
+      #order_by: [desc: :timestamp]
 
-    work = Repo.all(work_query)
+    #work = Repo.all(work_query)
 
-    jobs_query = from BoostJob,
-      where: [content: ^txid],
-      order_by: [desc: :timestamp]
+    #jobs_query = from BoostJob,
+    #  where: [content: ^txid],
+    #  order_by: [desc: :timestamp]
 
-    jobs = Repo.all(jobs_query)
+    #jobs = Repo.all(jobs_query)
+      #
+    #pending_jobs_query = from BoostJob,
+    #  where: [content: ^txid, spent: false],
+    #  order_by: [desc: :timestamp]
 
-    pending_jobs_query = from BoostJob,
-      where: [content: ^txid, spent: false],
-      order_by: [desc: :timestamp]
+    #pending_jobs = Repo.all(pending_jobs_query)
 
-    pending_jobs = Repo.all(pending_jobs_query)
-
-      render(conn, "show.html", content: content, work: work, jobs: jobs, pending_jobs: pending_jobs, tab: tab, do_boost: params["boost"])
+      #render(conn, "show.html", content: content, work: work, jobs: jobs, pending_jobs: pending_jobs, tab: tab, do_boost: params["boost"])
+      render(conn, "show.html", content: content, tab: tab, do_boost: params["boost"])
   end
 
   def index(conn, _params) do
 
-    {:ok, content} = Ranking.top_content :all
+    #{:ok, content} = Ranking.top_content :all
 
-    time_filters = get_filters conn.request_path
+    #time_filters = get_filters conn.request_path
 
-    render(conn, "index.html", content: content, time_filters: time_filters)
+    #render(conn, "index.html", content: content, time_filters: time_filters)
+
+    conn |> redirect(to: "/top-boosted-last-month")
 
   end
 
@@ -104,6 +107,17 @@ defmodule ProofofworkWeb.ContentController do
     render(conn, "index.html", content: content, time_filters: time_filters)
   end
 
+  def last_quarter(conn, _params) do
+
+    date = Timex.shift(Timex.now(), months: -3) |> DateTime.to_unix
+
+    {:ok, content} = Ranking.top_content :all, date
+
+    time_filters = get_filters conn.request_path
+
+    render(conn, "index.html", content: content, time_filters: time_filters)
+  end
+
   def last_year(conn, _params) do
 
     date = Timex.shift(Timex.now(), years: -1) |> DateTime.to_unix
@@ -142,11 +156,11 @@ defmodule ProofofworkWeb.ContentController do
 
 
   defp get_content_type txid do
-   
+
     case HTTPoison.head("https://media.bitcoinfiles.org/#{txid}") do
-  
+
       {:ok, %HTTPoison.Response{status_code: 200, headers: headers}} ->
-  
+
         header = Enum.find(headers, fn(element) ->
           match?({"Content-Type", _}, element)
         end)
@@ -166,24 +180,25 @@ defmodule ProofofworkWeb.ContentController do
       {:ok, %HTTPoison.Response{status_code: 500, body: body}} ->
 
         {:error, body}
- 
+
       {:error, %HTTPoison.Error{reason: reason}} ->
-  
+
         IO.inspect reason
-  
+
         {:error, reason}
-  
+
     end
   end
 
   defp get_filters path do
     [
-      %{:path => "/last-hour", title: "Hour"},
-      %{:path => "/last-day", title: "Day"},
-      %{:path => "/last-week", title: "Week"},
-      %{:path => "/last-month", title: "Month"},
-      %{:path => "/last-year", title: "Year"},
-      %{:path => "/all-time", title: "All Time"}
+      %{:path => "/top-boosted-last-hour", title: "Last Hour"},
+      %{:path => "/top-boosted-last-day", title: "Last Day"},
+      %{:path => "/top-boosted-last-week", title: "Last Week"},
+      %{:path => "/top-boosted-last-month", title: "Last Month"},
+      %{:path => "/top-boosted-last-quarter", title: "Last Quarter"},
+      %{:path => "/top-boosted-last-year", title: "Last Year"},
+      %{:path => "/top-boosted-all-time", title: "All Time"},
     ] |> Enum.map(fn (item) ->
       if item.path == path do
           %{:path => item[:path], title: item[:title], current: true}
@@ -195,4 +210,3 @@ defmodule ProofofworkWeb.ContentController do
   end
 
 end
-

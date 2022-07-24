@@ -1,5 +1,18 @@
 
 <div>
+  <div class='row'>
+    <h1>Top Boosted
+    <select onchange="this.options[this.selectedIndex].value && (window.location = this.options[this.selectedIndex].value);">
+    <%= for time_filter <- @time_filters do %>
+      <%= if time_filter.current do %>
+        <option selected value="<%= time_filter.path %>"><%= time_filter.title %></option>
+      <% else %>
+        <option value="<%= time_filter.path %>"><%= time_filter.title %></option>
+      <% end %>
+    <% end %>
+    </select/>
+    </h1>
+  </div>
     <p>
       <div style="display:flex; flex-direction:row">
           <form id="search-form" style="width:100%; diplay:flex;flex-direction:row">

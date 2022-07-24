@@ -27,7 +27,7 @@ defmodule ProofofworkWeb.JobsController do
 
         IO.inspect result
 
-        render(conn, "index.html", jobs: result["jobs"], mined: false, error: nil)
+        render(conn, "index.html", jobs: result["work"], mined: false, error: nil)
  
       {:ok, %HTTPoison.Response{status_code: 500, body: body}} ->
   
