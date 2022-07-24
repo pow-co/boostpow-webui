@@ -37,10 +37,9 @@ jobs:
           name: Push to Docker Hub
           command: |
             docker login --username $DOCKER_USER --password $DOCKER_PASSWORD
-            docker push proofofwork/proofofwork-server:$CIRCLE_BRANCH
+            docker push proofofwork/powco-webui:$CIRCLE_BRANCH
   deploy:
-    machine:
-      image: ubuntu-1604:202007-01
+    machine: true
     steps:
       - run:
           name: Deploy to Web Servers
