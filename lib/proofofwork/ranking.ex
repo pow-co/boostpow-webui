@@ -8,18 +8,18 @@ defmodule Proofofwork.Ranking do
   def top_content do
 
     case HTTPoison.get("https://pow.co/api/v1/boost/rankings/value?limit=1000&offset=0&content_category=image") do
-  
+
       {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
         result = Jason.decode!(body)["content"]
 
         {:ok, result}
-  
+
       {:error, %HTTPoison.Error{reason: reason}} ->
-  
+
         IO.inspect reason
-  
+
         {:error, reason}
-  
+
     end
 
   end
@@ -27,7 +27,7 @@ defmodule Proofofwork.Ranking do
   def top_content :all do
 
     case HTTPoison.get("https://pow.co/api/v1/boost/rankings?limit=100") do
-  
+
       {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
 
         result = Jason.decode!(body)["rankings"]
@@ -40,21 +40,21 @@ defmodule Proofofwork.Ranking do
         end)
 
         {:ok, result}
-  
+
       {:error, %HTTPoison.Error{reason: reason}} ->
-  
+
         IO.inspect reason
-  
+
         {:error, reason}
-  
+
     end
 
   end
 
   def top_content :all, timestamp do
 
-    case HTTPoison.get("https://pow.co/api/v1/boost/rankings?from_timestamp=#{timestamp}") do
-  
+    case HTTPoison.get("https://pow.co/api/v1/boost/rankings?start_date=#{timestamp}") do
+
       {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
 
         result = Jason.decode!(body)["rankings"]
@@ -71,13 +71,13 @@ defmodule Proofofwork.Ranking do
         end)
 
         {:ok, result}
-  
+
       {:error, %HTTPoison.Error{reason: reason}} ->
-  
+
         IO.inspect reason
-  
+
         {:error, reason}
-  
+
     end
 
   end
