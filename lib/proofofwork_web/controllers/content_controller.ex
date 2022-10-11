@@ -83,6 +83,7 @@ defmodule ProofofworkWeb.ContentController do
     time_filters = get_filters conn.request_path
 
     render(conn, "index.html", content: content, time_filters: time_filters)
+
   end
 
   def last_week(conn, _params) do

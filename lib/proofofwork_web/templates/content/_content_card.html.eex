@@ -2,6 +2,8 @@
 
     <section class="content-card" style="display:flex; flex-direction:row" data-txid='<%= @content.txid %>'>
 
+    <%= @content %>
+
       <div class="content-stats">
         <img class='upvote upvote-<%=@content.txid%>' data-txid='<%= @content.txid %>' style="width:50px; float:left; margin-right:2em "src="https://emoji.gg/assets/emoji/upvote.png"/>
       </div>
@@ -19,7 +21,7 @@
 
           <div class="markdown">
             <%= raw @content.content_text %>
-          </div>
+          </div>§
 
         <% end %>
 
@@ -89,7 +91,7 @@
 
   (() => {
 
-      $('.upvote-<%=@content.txid%>').on('click', async (el) => {
+      $('.upvote>').on('click', async (el) => {
 
       console.log('UPVOTE', el)
       let txid =  $(el.target).data('txid')

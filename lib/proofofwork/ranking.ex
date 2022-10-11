@@ -61,9 +61,7 @@ defmodule Proofofwork.Ranking do
 
         result = Enum.map(result, fn (item) ->
 
-          txid = item["content"]
-
-          #record = Repo.one!(from Content, where: [txid: ^txid])
+          txid = item["content_txid"]
 
           Map.merge(item, %{
             txid: txid
