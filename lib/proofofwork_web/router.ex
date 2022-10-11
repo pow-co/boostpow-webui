@@ -17,6 +17,7 @@ defmodule ProofofworkWeb.Router do
     get "/jobs/pending", JobsController, :notmined
     get "/jobs/new", JobsController, :new
 
+    get "/token", TokenController, :index
     get "/", ContentController, :index
     get "/top-boosted-last-hour", ContentController, :last_hour
     get "/top-boosted-last-day", ContentController, :last_day

@@ -138,7 +138,9 @@
       <div>
   <div class='header'>
     <button class='boost-content'>+ Boost Content</button>
+    <a class="nav-link" href="/token">Token</a>
     <a class="nav-link" href="/">Rankings</a>
+
     <a class="home-link" href="/"><h1><img style="width:30px" src="https://doge.bitcoinfiles.org/63276afcc38dd807ca518eaafaf1544b53f76e9fb21846a6a17baad8b9a83555"><b>POW</b>CO</h1></a>
   </div>
      
